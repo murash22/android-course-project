@@ -9,17 +9,17 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import com.example.helloworld.R
 
 @Preview(showSystemUi = true, showBackground = true)
 @Composable
-fun BottomNavBar() {
+fun BottomNavBar(
+    modifier: Modifier = Modifier
+) {
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .heightIn(59.dp),
         verticalArrangement = Arrangement.SpaceBetween

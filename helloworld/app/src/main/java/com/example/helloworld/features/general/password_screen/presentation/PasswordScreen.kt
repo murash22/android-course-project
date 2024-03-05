@@ -1,12 +1,12 @@
-package com.example.helloworld.features.general
+package com.example.helloworld.features.general.password_screen.presentation
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -17,9 +17,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import org.w3c.dom.Text
+import com.example.helloworld.core.ui.bottom_nav_bar.BottomNavBar
 
-@Preview
+@Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun PasswordScreen() {
     Scaffold { paddingValues ->
@@ -35,7 +35,7 @@ fun PasswordScreen() {
                     .fillMaxWidth(),
                 textAlign = TextAlign.Center
             )
-            BoxWithConstraints(
+            Box(
                 contentAlignment = Alignment.Center,
                 modifier = Modifier.padding(top = 31.dp, bottom = 103.dp)
             ) {
@@ -44,7 +44,6 @@ fun PasswordScreen() {
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    // Генерация 4 кружков
                     for (i in 1..4) {
                         Circle(Color(0xFFD9D9D9))
                         if (i < 4) Spacer(Modifier.width(22.dp))
@@ -99,8 +98,9 @@ fun ClickableNumberButton(text: String) {
             .size(75.dp)
             .clickable(onClick = {
                 //TODO: добавить функцию для нажатия на кнопку (уже после создания viewmodel)
-            }) 
-            .background(color = Color(0xFFD9D9D9), shape = CircleShape).clip(CircleShape)
+            })
+            .background(color = Color(0xFFD9D9D9), shape = CircleShape)
+            .clip(CircleShape)
     ) {
         Text(text = text, fontSize = 18.sp, textAlign = TextAlign.Center)
     }

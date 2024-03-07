@@ -47,7 +47,7 @@ fun PatientSurveysScreen(
             }
 
             composable(route = Screen.ExpectingSurveys.route) {
-                Text(text = "Expecting surveys")
+                PatientExpectingSurveysScreen()
             }
         }
 
@@ -57,7 +57,7 @@ fun PatientSurveysScreen(
 }
 
 @Composable
-fun TopNavBar(
+private fun TopNavBar(
     navController: NavHostController,
     modifier: Modifier = Modifier
 ) {
@@ -97,7 +97,7 @@ fun TopNavBar(
             color2 = colors[0]
         }) {
             Text(
-                text = "В ожидании",
+                text = "Непроверенные",
                 color = color2
             )
         }

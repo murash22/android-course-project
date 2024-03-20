@@ -1,4 +1,4 @@
-package com.example.helloworld.features.patients.take_survey_screen.presentation
+package com.example.helloworld.features.patient.take_survey_screen.presentation
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column

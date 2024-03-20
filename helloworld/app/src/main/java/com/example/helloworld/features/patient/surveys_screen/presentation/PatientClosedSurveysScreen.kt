@@ -1,4 +1,4 @@
-package com.example.helloworld.features.patients.surveys_screen.presentation
+package com.example.helloworld.features.patient.surveys_screen.presentation
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
@@ -68,7 +68,8 @@ val expandableSurveys = listOf(
 @Preview(showBackground = true)
 @Composable
 fun PatientClosedSurveysScreen(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    surveys: List<Any> = expandableSurveys
 ) {
     LazyColumn {
         items(expandableSurveys) {

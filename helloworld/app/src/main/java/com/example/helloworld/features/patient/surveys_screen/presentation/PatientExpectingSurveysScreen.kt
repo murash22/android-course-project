@@ -1,4 +1,4 @@
-package com.example.helloworld.features.patients.surveys_screen.presentation
+package com.example.helloworld.features.patient.surveys_screen.presentation
 
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable

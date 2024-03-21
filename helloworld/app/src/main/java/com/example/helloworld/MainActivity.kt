@@ -10,7 +10,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.helloworld.features.general.password_screen.presentation.PasswordScreen
-import com.example.helloworld.features.patients.home_screen.presentation.PatientHomeScreen
+import com.example.helloworld.features.patient.PatientScreen
+import com.example.helloworld.features.patient.home_screen.presentation.PatientHomeScreen
 import com.example.helloworld.ui.theme.MainScreenTheme
 
 class MainActivity : ComponentActivity() {
@@ -24,7 +25,7 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
 //                    MainScreen()
-                    PatientHomeScreen()
+                    PatientScreen()
                 }
             }
         }

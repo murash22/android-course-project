@@ -96,11 +96,11 @@ fun ClickableNumberButton(text: String) {
         contentAlignment = Alignment.Center,
         modifier = Modifier
             .size(75.dp)
+            .background(color = Color(0xFFD9D9D9), shape = CircleShape)
+            .clip(CircleShape)
             .clickable(onClick = {
                 //TODO: добавить функцию для нажатия на кнопку (уже после создания viewmodel)
             })
-            .background(color = Color(0xFFD9D9D9), shape = CircleShape)
-            .clip(CircleShape)
     ) {
         Text(text = text, fontSize = 18.sp, textAlign = TextAlign.Center)
     }

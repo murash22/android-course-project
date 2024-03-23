@@ -25,7 +25,7 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
 //                    MainScreen()
-                    PatientScreen()
+                    PatientScreen(patientId = "1")
                 }
             }
         }

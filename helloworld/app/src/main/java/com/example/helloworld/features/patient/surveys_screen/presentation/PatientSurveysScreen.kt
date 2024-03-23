@@ -19,6 +19,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.helloworld.data.SurveyDTO
 
 
 private sealed class Screen (val route: String) {
@@ -26,10 +27,10 @@ private sealed class Screen (val route: String) {
     data object ExpectingSurveys: Screen("expecting")
 }
 
-@Preview(showBackground = true)
 @Composable
 fun PatientSurveysScreen(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    surveys: List<SurveyDTO>
 ) {
     val navController = rememberNavController()
     Column(modifier = modifier) {
@@ -37,11 +38,11 @@ fun PatientSurveysScreen(
 
         NavHost(navController = navController, startDestination = Screen.ClosedSurveys.route) {
             composable(route = Screen.ClosedSurveys.route) {
-                PatientClosedSurveysScreen()
+                PatientClosedSurveysScreen(surveys = surveys.filter { it.completed && it.feedback.isNotEmpty() })
             }
 
             composable(route = Screen.ExpectingSurveys.route) {
-                PatientExpectingSurveysScreen()
+                PatientExpectingSurveysScreen(surveys = surveys.filter { it.completed && it.feedback.isEmpty() })
             }
         }
 

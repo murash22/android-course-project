@@ -1,18 +1,31 @@
 package com.example.helloworld.features.patient.surveys_screen.presentation
 
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import com.example.helloworld.R
 import com.example.helloworld.core.ui.survey_card.SurveyCard
+import com.example.helloworld.data.SurveyDTO
+import com.example.helloworld.data.USERS
+import com.example.helloworld.data.UserRole
 
 
 @Composable
 fun PatientExpectingSurveysScreen(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    surveys: List<SurveyDTO>
 ) {
     LazyColumn {
-        items(3) {
-            SurveyCard(title = "Доктор ${it+1}", body ="Ваше самочувствие в ${it+2}-й день недели?")
+        items(surveys) {survey ->
+            SurveyCard(
+                title = stringResource(
+                    R.string.survey_from_doctor_name,
+                    USERS.filter { it.id == survey.doctorID && it.role == UserRole.Doctor }[0].name
+                ),
+                body = survey.title,
+            )
         }
     }
 }

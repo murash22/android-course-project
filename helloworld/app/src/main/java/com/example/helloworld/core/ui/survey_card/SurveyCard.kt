@@ -1,5 +1,6 @@
 package com.example.helloworld.core.ui.survey_card
 
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -18,13 +19,17 @@ import androidx.compose.ui.unit.sp
 fun SurveyCard(
     title: String,
     body: String,
-    onClick: (() -> Unit) = {}
+    onClick: (() -> Unit)? = null
 ) {
+    var modifier = Modifier
+        .padding(start = 20.dp, end = 20.dp, top = 20.dp)
+        .fillMaxWidth()
+    if (onClick != null) {
+        modifier = modifier
+           .clickable(onClick = onClick)
+    }
     Surface(
-        modifier = Modifier
-            .padding(start = 20.dp, end = 20.dp, top = 20.dp)
-            .fillMaxWidth()
-            .clickable(onClick = onClick),
+        modifier = modifier,
         shape = RoundedCornerShape(5.dp),
         border = BorderStroke(1.dp, Color.Black)
     ) {

@@ -11,6 +11,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -19,6 +20,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.helloworld.R
+import com.example.helloworld.data.SurveyDTO
 
 
 private sealed class Screen (val route: String) {
@@ -26,10 +29,10 @@ private sealed class Screen (val route: String) {
     data object ExpectingSurveys: Screen("expecting")
 }
 
-@Preview(showBackground = true)
 @Composable
 fun PatientSurveysScreen(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    surveys: List<SurveyDTO>
 ) {
     val navController = rememberNavController()
     Column(modifier = modifier) {
@@ -37,11 +40,11 @@ fun PatientSurveysScreen(
 
         NavHost(navController = navController, startDestination = Screen.ClosedSurveys.route) {
             composable(route = Screen.ClosedSurveys.route) {
-                PatientClosedSurveysScreen()
+                PatientClosedSurveysScreen(surveys = surveys.filter { it.completed && it.feedback.isNotEmpty() })
             }
 
             composable(route = Screen.ExpectingSurveys.route) {
-                PatientExpectingSurveysScreen()
+                PatientExpectingSurveysScreen(surveys = surveys.filter { it.completed && it.feedback.isEmpty() })
             }
         }
 
@@ -78,7 +81,7 @@ private fun TopNavBar(
             }
         ) {
             Text(
-                text = "Закрытые",
+                text = stringResource(R.string.closed),
                 color = if (currentDestination?.hierarchy?.any {it.route == Screen.ClosedSurveys.route} == true) activeColor else inActiveColor
             )
         }
@@ -94,7 +97,7 @@ private fun TopNavBar(
             }
         ) {
             Text(
-                text = "Непроверенные",
+                text = stringResource(R.string.unchecked),
                 color = if (currentDestination?.hierarchy?.any {it.route == Screen.ExpectingSurveys.route} == true) activeColor else inActiveColor
             )
         }

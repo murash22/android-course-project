@@ -22,15 +22,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.res.stringResource
+import com.example.helloworld.R
+import com.example.helloworld.data.SurveyDTO
 
 
 data class ExpandableSurvey(
@@ -41,38 +43,37 @@ data class ExpandableSurvey(
     val closeTime: String
 )
 
-val expandableSurveys = listOf(
-    ExpandableSurvey(
-        title = "Фидбек от доктора Заславского #4142",
-        body = "я рад, что все хорошо!",
-        surveyName = "как настроение?",
-        closeDate = "22.02.2022",
-        closeTime = "11:00"
-    ),
-    ExpandableSurvey(
-        title = "Фидбек от доктора Заславского #5923",
-        body = "я рад, что все хорошо!",
-        surveyName = "как настроение?",
-        closeDate = "22.02.2022",
-        closeTime = "11:00"
-    ),
-    ExpandableSurvey(
-        title = "Фидбек от доктора Заславского #4142",
-        body = "я рад, что все хорошо!",
-        surveyName = "как настроение?",
-        closeDate = "22.02.2022",
-        closeTime = "11:00"
-    ),
-)
+//val expandableSurveys = listOf(
+//    ExpandableSurvey(
+//        title = "Фидбек от доктора Заславского #4142",
+//        body = "я рад, что все хорошо!",
+//        surveyName = "как настроение?",
+//        closeDate = "22.02.2022",
+//        closeTime = "11:00"
+//    ),
+//    ExpandableSurvey(
+//        title = "Фидбек от доктора Заславского #5923",
+//        body = "я рад, что все хорошо!",
+//        surveyName = "как настроение?",
+//        closeDate = "22.02.2022",
+//        closeTime = "11:00"
+//    ),
+//    ExpandableSurvey(
+//        title = "Фидбек от доктора Заславского #4142",
+//        body = "я рад, что все хорошо!",
+//        surveyName = "как настроение?",
+//        closeDate = "22.02.2022",
+//        closeTime = "11:00"
+//    ),
+//)
 
-@Preview(showBackground = true)
 @Composable
 fun PatientClosedSurveysScreen(
     modifier: Modifier = Modifier,
-    surveys: List<Any> = expandableSurveys
+    surveys: List<SurveyDTO>
 ) {
     LazyColumn {
-        items(expandableSurveys) {
+        items(surveys) {
             ExpandableSurveyCard(expandableSurvey = it)
         }
     }
@@ -82,11 +83,9 @@ fun PatientClosedSurveysScreen(
 
 @Composable
 private fun ExpandableSurveyCard(
-    expandableSurvey: ExpandableSurvey,
-    modifier: Modifier = Modifier
-
+    expandableSurvey: SurveyDTO
 ) {
-    var expanded by remember { mutableStateOf(false) }
+    var expanded by rememberSaveable { mutableStateOf(false) }
     Surface(
         modifier = Modifier
             .padding(start = 20.dp, end = 20.dp, top = 20.dp)
@@ -111,25 +110,25 @@ private fun ExpandableSurveyCard(
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
-                    text = expandableSurvey.body,
+                    text = stringResource(R.string.feedback, expandableSurvey.feedback),
                     style = TextStyle(fontSize = 18.sp)
                 )
                 if(expanded) {
+//                    Spacer(modifier = Modifier.height(8.dp))
+//                    Text(
+//                        text = "Опрос: ${expandableSurvey.title}",
+//                        style = TextStyle(fontSize = 18.sp)
+//                    )
                     Spacer(modifier = Modifier.height(8.dp))
                     Text(
-                        text = "Опрос: ${expandableSurvey.surveyName}",
+                        text = stringResource(R.string.close_date, expandableSurvey.closeDate ?: ""),
                         style = TextStyle(fontSize = 18.sp)
                     )
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Text(
-                        text = "Дата закрытия: ${expandableSurvey.closeDate}",
-                        style = TextStyle(fontSize = 18.sp)
-                    )
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Text(
-                        text = "Время закрытия: ${expandableSurvey.closeTime}",
-                        style = TextStyle(fontSize = 18.sp)
-                    )
+//                    Spacer(modifier = Modifier.height(8.dp))
+//                    Text(
+//                        text = "Дата открытия: ${expandableSurvey.openDate}",
+//                        style = TextStyle(fontSize = 18.sp)
+//                    )
                 }
             }
             IconButton(

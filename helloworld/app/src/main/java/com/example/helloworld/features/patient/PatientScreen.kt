@@ -9,6 +9,7 @@ import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -18,7 +19,6 @@ import com.example.helloworld.PatientRoutes
 import com.example.helloworld.Routes
 import com.example.helloworld.core.navigation.NavItem
 import com.example.helloworld.core.ui.bottom_nav_bar.BottomNavBar
-import com.example.helloworld.data.doctorSurveys
 import com.example.helloworld.features.patient.home_screen.presentation.PatientHomeScreen
 import com.example.helloworld.features.patient.surveys_screen.presentation.PatientSurveysScreen
 import com.example.helloworld.features.patient.take_survey_screen.presentation.PatientTakeSurveyScreen
@@ -38,8 +38,12 @@ val navItems: List<NavItem> = listOf(
 
 @Composable
 fun PatientScreen(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    patientId: String,
+    patientViewModel: PatientViewModel = viewModel(),
 ) {
+    val patient = patientViewModel.getPatient(patientId)
+    val surveys = patientViewModel.getSurveys(patientId)
     val navController = rememberNavController()
     Scaffold (
         modifier = modifier,
@@ -52,7 +56,8 @@ fun PatientScreen(
                 PatientHomeScreen(
                     modifier = Modifier.padding(paddingValues),
                     navController = navController,
-//                    surveys = surveys
+                    patient.name,
+                    surveys = surveys.filter { !it.completed }
                 )
             }
 
@@ -60,7 +65,8 @@ fun PatientScreen(
                 route = Routes.Other.route
             ) {
                 PatientSurveysScreen(
-                    modifier = Modifier.padding(paddingValues)
+                    modifier = Modifier.padding(paddingValues),
+                    surveys = surveys
                 )
             }
 
@@ -68,7 +74,7 @@ fun PatientScreen(
                 route = PatientRoutes.TakeSurvey.route + "/{${PatientRoutes.TakeSurvey.argName}}",
                 arguments = listOf(
                     navArgument(PatientRoutes.TakeSurvey.argName) {
-                        type = NavType.IntType
+                        type = NavType.StringType
                         nullable = false
                     }
                 )
@@ -76,7 +82,11 @@ fun PatientScreen(
                 PatientTakeSurveyScreen(
                     modifier = Modifier.padding(paddingValues),
                     nav = navController,
-                    surveyCard = doctorSurveys[entry.arguments?.getInt(PatientRoutes.TakeSurvey.argName) ?: 0]
+                    surveyCard = surveys.filter {
+                        it.id == (entry.arguments?.getString(PatientRoutes.TakeSurvey.argName) ?: "0")
+                    }[0],
+                    onSubmitSurvey = patientViewModel::onSubmitSurvey,
+                    onSubmitQuestionAnswer = patientViewModel::onSubmitQuestionAnswer
                 )
             }
         }

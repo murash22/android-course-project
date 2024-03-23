@@ -12,11 +12,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.helloworld.PatientRoutes
+import com.example.helloworld.R
 import com.example.helloworld.core.ui.survey_card.SurveyCard
 import com.example.helloworld.data.SurveyDTO
 import com.example.helloworld.data.USERS
@@ -42,7 +44,7 @@ fun PatientHomeScreen(
         ) {
             Text(
                 modifier = Modifier,
-                text = "Привет, $patientName!",
+                text = stringResource(R.string.hello_name, patientName),
                 fontSize = 24.sp
             )
             Spacer(modifier = Modifier.weight(1f))
@@ -60,7 +62,10 @@ fun PatientHomeScreen(
             LazyColumn {
                 items(surveys) { item ->
                     SurveyCard(
-                        title = "Опрос от доктора ${USERS.filter { it.id == item.doctorID && it.role == UserRole.Doctor }[0].name}",
+                        title = stringResource(
+                            R.string.survey_from_doctor_name,
+                            USERS.filter { it.id == item.doctorID && it.role == UserRole.Doctor }[0].name
+                        ),
                         body = item.title,
                     ) {
                         navController.navigate(
@@ -77,7 +82,7 @@ fun PatientHomeScreen(
                     .fillMaxWidth()
                     .padding(top = 10.dp),
                 textAlign = TextAlign.Center,
-                text = "Нет доступных опросов.",
+                text = stringResource(R.string.no_available_survey),
                 fontSize = 20.sp,
             )
         }

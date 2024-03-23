@@ -11,6 +11,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -19,6 +20,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.helloworld.R
 import com.example.helloworld.data.SurveyDTO
 
 
@@ -79,7 +81,7 @@ private fun TopNavBar(
             }
         ) {
             Text(
-                text = "Закрытые",
+                text = stringResource(R.string.closed),
                 color = if (currentDestination?.hierarchy?.any {it.route == Screen.ClosedSurveys.route} == true) activeColor else inActiveColor
             )
         }
@@ -95,7 +97,7 @@ private fun TopNavBar(
             }
         ) {
             Text(
-                text = "Непроверенные",
+                text = stringResource(R.string.unchecked),
                 color = if (currentDestination?.hierarchy?.any {it.route == Screen.ExpectingSurveys.route} == true) activeColor else inActiveColor
             )
         }

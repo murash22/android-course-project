@@ -30,6 +30,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.res.stringResource
+import com.example.helloworld.R
 import com.example.helloworld.data.SurveyDTO
 
 
@@ -108,7 +110,7 @@ private fun ExpandableSurveyCard(
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
-                    text = "Отзыв: ${expandableSurvey.feedback}",
+                    text = stringResource(R.string.feedback, expandableSurvey.feedback),
                     style = TextStyle(fontSize = 18.sp)
                 )
                 if(expanded) {
@@ -119,7 +121,7 @@ private fun ExpandableSurveyCard(
 //                    )
                     Spacer(modifier = Modifier.height(8.dp))
                     Text(
-                        text = "Дата закрытия: ${expandableSurvey.closeDate}",
+                        text = stringResource(R.string.close_date, expandableSurvey.closeDate ?: ""),
                         style = TextStyle(fontSize = 18.sp)
                     )
 //                    Spacer(modifier = Modifier.height(8.dp))

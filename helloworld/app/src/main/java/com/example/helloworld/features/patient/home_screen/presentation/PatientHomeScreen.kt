@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.helloworld.PatientRoutes
 import com.example.helloworld.R
+import com.example.helloworld.core.ui.about_button.AboutButton
 import com.example.helloworld.core.ui.survey_card.SurveyCard
 import com.example.helloworld.data.SurveyDTO
 import com.example.helloworld.data.USERS
@@ -49,14 +50,7 @@ fun PatientHomeScreen(
             )
             Spacer(modifier = Modifier.weight(1f))
 
-//            Icon(
-//                modifier = Modifier
-//                    .size(28.dp)
-//                    .clickable {  },
-//                imageVector = Icons.Outlined.Info,
-//                contentDescription = null
-//            )
-
+            AboutButton(modifier = Modifier)
         }
         if (surveys.isNotEmpty()) {
             LazyColumn {

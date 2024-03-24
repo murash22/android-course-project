@@ -8,6 +8,8 @@ sealed class Routes(val route: String, val argName: String? = null) {
     data object Patient: Routes(route = "patient", argName = "id")
 
     data object PasswordScreen: Routes(route = "pin")
+
+    data object Doctor: Routes(route = "doctor", argName = "id")
 }
 
 sealed class PatientRoutes(
@@ -23,6 +25,12 @@ sealed class PatientRoutes(
     }
 }
 
-sealed class DoctorRoutes(val route: String) {
-
+sealed class DoctorRoutes(
+    val route: String,
+    val argName: String
+) {
+    data object CheckSurvey: DoctorRoutes(route = "check_survey", argName = "id")
+    fun checkSurveyWithArg(id: String) : String {
+        return route + "/${id}"
+    }
 }

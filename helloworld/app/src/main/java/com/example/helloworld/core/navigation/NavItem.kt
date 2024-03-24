@@ -1,9 +1,9 @@
 package com.example.helloworld.core.navigation
 
-import androidx.compose.ui.graphics.vector.ImageVector
 
-data class NavItem(
+
+data class NavItem<T>(
     val route: String,
-    val selectedIcon: ImageVector,
-    val unselectedIcon: ImageVector
+    val selectedIcon: T,
+    val unselectedIcon: T
 )

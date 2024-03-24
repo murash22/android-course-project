@@ -9,6 +9,11 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavType
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.example.helloworld.features.general.password_screen.presentation.PasswordScreen
 import com.example.helloworld.features.patient.PatientScreen
 import com.example.helloworld.features.patient.home_screen.presentation.PatientHomeScreen
@@ -24,8 +29,8 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-//                    MainScreen()
-                    PatientScreen(patientId = "1")
+                    MainScreen()
+//                    PatientScreen(patientId = "1")
                 }
             }
         }
@@ -35,5 +40,32 @@ class MainActivity : ComponentActivity() {
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun MainScreen() {
-    PasswordScreen()
+    val navController = rememberNavController()
+
+    NavHost(
+        navController = navController,
+        startDestination = Routes.PasswordScreen.route
+    ) {
+
+        composable(route = Routes.PasswordScreen.route) {
+            PasswordScreen(navController = navController)
+        }
+
+        composable(
+            route = Routes.Patient.route + "/{${Routes.Patient.argName}}",
+            arguments = listOf(
+                navArgument(Routes.Patient.argName ?: "id") {
+                    type = NavType.StringType
+                    nullable = false
+                }
+            )
+        ) { entry ->
+            PatientScreen(
+                patientId = entry.arguments?.getString(PatientRoutes.TakeSurvey.argName) ?: "1"
+            )
+        }
+
+
+    }
+
 }

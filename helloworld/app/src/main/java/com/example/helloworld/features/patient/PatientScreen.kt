@@ -2,13 +2,14 @@ package com.example.helloworld.features.patient
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.outlined.AccountCircle
+import androidx.compose.material.icons.outlined.CheckCircle
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -23,7 +24,7 @@ import com.example.helloworld.features.patient.home_screen.presentation.PatientH
 import com.example.helloworld.features.patient.surveys_screen.presentation.PatientSurveysScreen
 import com.example.helloworld.features.patient.take_survey_screen.presentation.PatientTakeSurveyScreen
 
-val navItems: List<NavItem> = listOf(
+val navItems: List<NavItem<ImageVector>> = listOf(
     NavItem(
         route = Routes.Home.route,
         selectedIcon = Icons.Filled.Home,
@@ -31,8 +32,8 @@ val navItems: List<NavItem> = listOf(
     ),
     NavItem(
         route = Routes.Other.route,
-        selectedIcon = Icons.Filled.AccountCircle,
-        unselectedIcon = Icons.Outlined.AccountCircle
+        selectedIcon = Icons.Filled.CheckCircle,
+        unselectedIcon = Icons.Outlined.CheckCircle
     )
 )
 
@@ -56,7 +57,7 @@ fun PatientScreen(
                 PatientHomeScreen(
                     modifier = Modifier.padding(paddingValues),
                     navController = navController,
-                    patient.name,
+                    patientName = patient.name,
                     surveys = surveys.filter { !it.completed }
                 )
             }

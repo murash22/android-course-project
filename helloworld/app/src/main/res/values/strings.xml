@@ -9,4 +9,6 @@
     <string name="unchecked">Непроверенные</string>
     <string name="submit">Завершить</string>
     <string name="welcome">Добро пожаловать!</string>
+    <string name="patient_name">Пациент: %1$s</string>
+    <string name="submit_and_close_survey">Отправить и закрыть опрос</string>
 </resources>

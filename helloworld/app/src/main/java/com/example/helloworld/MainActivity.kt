@@ -14,9 +14,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.example.helloworld.features.doctor.DoctorScreen
 import com.example.helloworld.features.general.password_screen.presentation.PasswordScreen
 import com.example.helloworld.features.patient.PatientScreen
-import com.example.helloworld.features.patient.home_screen.presentation.PatientHomeScreen
 import com.example.helloworld.ui.theme.MainScreenTheme
 
 class MainActivity : ComponentActivity() {
@@ -61,10 +61,23 @@ fun MainScreen() {
             )
         ) { entry ->
             PatientScreen(
-                patientId = entry.arguments?.getString(PatientRoutes.TakeSurvey.argName) ?: "1"
+                patientId = entry.arguments?.getString(PatientRoutes.TakeSurvey.argName) ?: ""
             )
         }
 
+        composable(
+            route = Routes.Doctor.route + "/{${Routes.Doctor.argName}}",
+            arguments = listOf(
+                navArgument(Routes.Doctor.argName ?: "id") {
+                    type = NavType.StringType
+                    nullable = false
+                }
+            )
+        ) { entry ->
+            DoctorScreen(
+                doctorId = entry.arguments?.getString(Routes.Doctor.argName) ?: ""
+            )
+        }
 
     }
 

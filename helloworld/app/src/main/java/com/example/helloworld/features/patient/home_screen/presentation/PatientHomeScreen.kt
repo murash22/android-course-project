@@ -58,7 +58,7 @@ fun PatientHomeScreen(
                     SurveyCard(
                         title = stringResource(
                             R.string.survey_from_doctor_name,
-                            USERS.filter { it.id == item.doctorID && it.role == UserRole.Doctor }[0].name
+                            USERS.find { it.id == item.doctorID && it.role == UserRole.Doctor }!!.name
                         ),
                         body = item.title,
                     ) {

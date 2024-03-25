@@ -13,4 +13,6 @@
     <string name="submit_and_close_survey">Отправить и закрыть опрос</string>
     <string name="list_of_patients">Список пациентов</string>
     <string name="unfinished">Не пройденные</string>
+    <string name="leave_feedback">Оставить обратную связь...</string>
+    <string name="survey_results">Результаты опроса \"%1$s\"</string>
 </resources>

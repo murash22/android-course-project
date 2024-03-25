@@ -1,6 +1,7 @@
 package com.example.helloworld.features.doctor
 
 import androidx.lifecycle.ViewModel
+import com.example.helloworld.data.PatientDTO
 import com.example.helloworld.data.SURVEYS
 import com.example.helloworld.data.SurveyDTO
 import com.example.helloworld.data.USERS
@@ -9,7 +10,8 @@ import com.example.helloworld.data.UserRole
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.filter
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 
 class DoctorViewModel(
@@ -18,10 +20,10 @@ class DoctorViewModel(
     private var _user = MutableStateFlow(USERS.find { it.id == doctorId && it.role == UserRole.Doctor }!!)
     val doctor: StateFlow<UserDTO> = _user.asStateFlow()
 
-    var _surveys = MutableStateFlow(SURVEYS.filter { it.doctorID == doctorId })
+    private var _surveys = MutableStateFlow(SURVEYS.filter { it.doctorID == doctorId })
     val surveys: StateFlow<List<SurveyDTO>> = _surveys.asStateFlow()
 
-    var _patients = MutableStateFlow(USERS.filter {
+    private var _patients = MutableStateFlow(USERS.filter {
         user -> surveys.value.any { user.id == it.patientID }
     })
     val patients: StateFlow<List<UserDTO>> = _patients.asStateFlow()
@@ -36,6 +38,16 @@ class DoctorViewModel(
         }
         return SURVEYS.filter { it.doctorID == doctorId }
 
+    }
+
+    fun getPatient(id: String) : PatientDTO {
+        return _patients.value.find { it.id == id && it.role == UserRole.Patient } as PatientDTO
+    }
+
+    fun onCheckSurvey(id: String, feedback: String) {
+        val foundSurvey = _surveys.value.find { it.id == id }
+        foundSurvey?.feedback = feedback
+        foundSurvey?.closeDate = LocalDate.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))
     }
 
 //    fun onSubmitSurvey(id: String) {

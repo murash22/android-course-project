@@ -1,14 +1,12 @@
 package com.example.helloworld.features.general.password_screen.presentation
 
-import android.annotation.SuppressLint
-import android.util.Log
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -20,7 +18,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -28,7 +25,6 @@ import androidx.navigation.NavController
 import com.example.helloworld.R
 import com.example.helloworld.Routes
 import com.example.helloworld.core.UserViewModel
-import com.example.helloworld.core.ui.bottom_nav_bar.BottomNavBar
 
 //@Preview(showBackground = true, showSystemUi = true)
 @Composable
@@ -132,15 +128,14 @@ fun ClickableNumberButton(
     text: String,
     onClick: () -> Unit
 ) {
-    Box(
-        contentAlignment = Alignment.Center,
+    TextButton(
+        onClick = onClick,
         modifier = Modifier
             .size(75.dp)
-            .clickable(onClick = onClick)
             .background(color = Color(0xFFD9D9D9), shape = CircleShape)
             .clip(CircleShape)
     ) {
-        Text(text = text, fontSize = 18.sp, textAlign = TextAlign.Center)
+        Text(text = text, fontSize = 18.sp, textAlign = TextAlign.Center, color = Color.Black)
     }
 }
 

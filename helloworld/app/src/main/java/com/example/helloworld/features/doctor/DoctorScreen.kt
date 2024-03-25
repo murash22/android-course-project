@@ -104,9 +104,9 @@ fun DoctorScreen(
                 visibleScreens = listOf(
                     Routes.Home.route,
                     Routes.Other.route,
-                    "unchecked_surveys",
-                    "expecting_surveys",
-                    "closed_surveys"
+                    DoctorRoutes.UncheckedSurveys.route,
+                    DoctorRoutes.ExpectingSurveys.route,
+                    DoctorRoutes.ClosedSurveys.route
                 )
             )
         },

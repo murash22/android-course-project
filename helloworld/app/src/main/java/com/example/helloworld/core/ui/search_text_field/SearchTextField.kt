@@ -24,8 +24,9 @@ import com.example.helloworld.R
 
 @Composable
 fun SearchTextField(
+    onSearch: (String) -> Unit,
+    label: String = "Поиск",
     modifier: Modifier = Modifier,
-    onSearch: (String) -> Unit
 ) {
     var searchText by rememberSaveable { mutableStateOf("") }
     Row(
@@ -50,7 +51,7 @@ fun SearchTextField(
                 input -> searchText = input
                 onSearch(searchText)
             },
-            label = { Text(text = "Поиск") },
+            label = { Text(text = label) },
             keyboardOptions = KeyboardOptions.Default.copy(
                 imeAction = ImeAction.Done
             ),

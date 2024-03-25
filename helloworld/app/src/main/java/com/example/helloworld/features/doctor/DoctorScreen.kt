@@ -1,6 +1,5 @@
 package com.example.helloworld.features.doctor
 
-import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -21,11 +20,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.example.helloworld.DoctorRoutes
 import com.example.helloworld.R
 import com.example.helloworld.Routes
@@ -80,7 +81,6 @@ fun DoctorScreen(
     var filteredSurveys by rememberSaveable {
         mutableStateOf(doctorViewModel.onSearchPatients(""))
     }
-
     Scaffold (
         modifier = modifier,
         topBar = {
@@ -151,7 +151,24 @@ fun DoctorScreen(
                 }
             }
 
-
+            composable(
+                route = DoctorRoutes.CheckSurvey.route + "/{${DoctorRoutes.CheckSurvey.argName}}",
+                arguments = listOf(
+                    navArgument(DoctorRoutes.CheckSurvey.argName ?: "id") {
+                        type = NavType.StringType
+                        nullable = false
+                    }
+                )
+            ) { entry ->
+                val surveyCard = filteredSurveys.find { it.id == (entry.arguments?.getString(DoctorRoutes.CheckSurvey.argName) ?: "0") }!!
+                CheckSurveyScreen(
+                    navController = navController,
+                    surveyCard = surveyCard,
+                    onCheck = doctorViewModel::onCheckSurvey,
+                    patient = doctorViewModel.getPatient(surveyCard.patientID),
+                    modifier = Modifier.padding(paddingValues)
+                )
+            }
 
 
 //            composable(
@@ -163,21 +180,7 @@ fun DoctorScreen(
 //                )
 //            }
 //
-//            composable(
-//                route = DoctorRoutes.CheckSurvey.route + "/{${DoctorRoutes.CheckSurvey.argName}}",
-//                arguments = listOf(
-//                    navArgument(DoctorRoutes.CheckSurvey.argName) {
-//                        type = NavType.StringType
-//                        nullable = false
-//                    }
-//                )
-//            ) { entry ->
-//                CheckSurveyScreen(
-//                    navController = navController,
-//                    surveyCard = surveys.find { it.id == (entry.arguments?.getString(DoctorRoutes.CheckSurvey.argName) ?: "") }!!,
-//                    modifier = Modifier.padding(paddingValues)
-//                )
-//            }
+//
         }
     }
 }

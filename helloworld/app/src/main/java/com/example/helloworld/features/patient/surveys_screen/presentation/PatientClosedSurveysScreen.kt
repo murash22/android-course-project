@@ -32,6 +32,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.res.stringResource
 import com.example.helloworld.R
+import com.example.helloworld.core.ui.expandable_survey_card.ExpandableSurveyCard
 import com.example.helloworld.data.SurveyDTO
 
 
@@ -43,29 +44,6 @@ data class ExpandableSurvey(
     val closeTime: String
 )
 
-//val expandableSurveys = listOf(
-//    ExpandableSurvey(
-//        title = "Фидбек от доктора Заславского #4142",
-//        body = "я рад, что все хорошо!",
-//        surveyName = "как настроение?",
-//        closeDate = "22.02.2022",
-//        closeTime = "11:00"
-//    ),
-//    ExpandableSurvey(
-//        title = "Фидбек от доктора Заславского #5923",
-//        body = "я рад, что все хорошо!",
-//        surveyName = "как настроение?",
-//        closeDate = "22.02.2022",
-//        closeTime = "11:00"
-//    ),
-//    ExpandableSurvey(
-//        title = "Фидбек от доктора Заславского #4142",
-//        body = "я рад, что все хорошо!",
-//        surveyName = "как настроение?",
-//        closeDate = "22.02.2022",
-//        closeTime = "11:00"
-//    ),
-//)
 
 @Composable
 fun PatientClosedSurveysScreen(
@@ -81,67 +59,3 @@ fun PatientClosedSurveysScreen(
 }
 
 
-@Composable
-private fun ExpandableSurveyCard(
-    expandableSurvey: SurveyDTO
-) {
-    var expanded by rememberSaveable { mutableStateOf(false) }
-    Surface(
-        modifier = Modifier
-            .padding(start = 20.dp, end = 20.dp, top = 20.dp)
-            .fillMaxWidth(),
-        shape = RoundedCornerShape(5.dp),
-        border = BorderStroke(1.dp, Color.Black)
-    ) {
-        Row(
-            modifier = Modifier
-                .padding(16.dp)
-                .fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            Column(
-                modifier = Modifier,
-                horizontalAlignment = Alignment.Start,
-
-                ) {
-                Text(
-                    text = expandableSurvey.title,
-                    style = TextStyle(fontSize = 14.sp)
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-                Text(
-                    text = stringResource(R.string.feedback, expandableSurvey.feedback),
-                    style = TextStyle(fontSize = 18.sp)
-                )
-                if(expanded) {
-//                    Spacer(modifier = Modifier.height(8.dp))
-//                    Text(
-//                        text = "Опрос: ${expandableSurvey.title}",
-//                        style = TextStyle(fontSize = 18.sp)
-//                    )
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Text(
-                        text = stringResource(R.string.close_date, expandableSurvey.closeDate ?: ""),
-                        style = TextStyle(fontSize = 18.sp)
-                    )
-//                    Spacer(modifier = Modifier.height(8.dp))
-//                    Text(
-//                        text = "Дата открытия: ${expandableSurvey.openDate}",
-//                        style = TextStyle(fontSize = 18.sp)
-//                    )
-                }
-            }
-            IconButton(
-                modifier = Modifier,
-                onClick = { expanded = !expanded},
-            ) {
-                Icon(
-                    imageVector = if (expanded) Icons.Filled.KeyboardArrowUp else Icons.Filled.KeyboardArrowDown,
-                    contentDescription = null,
-                    tint = MaterialTheme.colorScheme.secondary
-                )
-            }
-        }
-
-    }
-}

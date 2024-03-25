@@ -25,13 +25,13 @@ import com.example.helloworld.R
 @Composable
 fun SearchTextField(
     modifier: Modifier = Modifier,
-    onSearch: () -> Unit
+    onSearch: (String) -> Unit
 ) {
     var searchText by rememberSaveable { mutableStateOf("") }
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(20.dp)
+            .padding(horizontal = 20.dp, vertical = 10.dp)
     ) {
         OutlinedTextField(
             leadingIcon = {
@@ -46,14 +46,17 @@ fun SearchTextField(
                 focusedContainerColor = Color.White,
             ),
             value = searchText,
-            onValueChange = {input -> searchText = input},
+            onValueChange = {
+                input -> searchText = input
+                onSearch(searchText)
+            },
             label = { Text(text = "Поиск") },
             keyboardOptions = KeyboardOptions.Default.copy(
                 imeAction = ImeAction.Done
             ),
-            keyboardActions = KeyboardActions(
-//                onDone = {  onKeyboardDone() }
-            ),
+//            keyboardActions = KeyboardActions(
+//                onDone = {  onSearch(searchText) }
+//            ),
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(1f)

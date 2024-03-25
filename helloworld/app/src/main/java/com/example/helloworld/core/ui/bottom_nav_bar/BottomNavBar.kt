@@ -20,13 +20,13 @@ import com.example.helloworld.core.navigation.NavItem
 fun BottomNavBar(
     modifier: Modifier = Modifier,
     navController: NavController,
-    visibleScreens: List<Routes>,
+    visibleScreens: List<String>,
     navItems: List<NavItem<ImageVector>>
 ) {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
 
-    val bottomBarDestination = visibleScreens.any{it.route == currentDestination?.route}
+    val bottomBarDestination = visibleScreens.any{it == currentDestination?.route}
     if (bottomBarDestination) {
         NavigationBar(
             modifier = modifier

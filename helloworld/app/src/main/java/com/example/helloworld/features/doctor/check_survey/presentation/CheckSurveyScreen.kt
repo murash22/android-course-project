@@ -49,7 +49,7 @@ fun CheckSurveyScreen(
         mutableStateOf("")
     }
     Column(
-        modifier = modifier
+        modifier = modifier.padding(bottom = 25.dp)
     ) {
         Icon(
             modifier = Modifier
@@ -92,6 +92,7 @@ fun CheckSurveyScreen(
                             maxLines = 5,
                             minLines = 5,
                             value = feedbackText,
+                            isError = feedbackText.isEmpty(),
                             keyboardOptions = KeyboardOptions.Default.copy(
                                 imeAction = ImeAction.Done
                             ),
@@ -102,11 +103,18 @@ fun CheckSurveyScreen(
                             modifier = Modifier.padding(vertical = 5.dp),
                             border = BorderStroke(1.dp, Color.Black),
                             onClick = {
-                                onCheck(surveyCard.id, feedbackText)
-                                navController.popBackStack()
+                                if (feedbackText.isNotEmpty()) {
+                                    onCheck(surveyCard.id, feedbackText)
+                                    navController.popBackStack()
+                                }
                             }
                         ) {
-                            Text(text = stringResource(R.string.submit_and_close_survey))
+                            Text(
+                                color = Color.Black,
+                                fontSize = 16.sp,
+                                modifier = Modifier.padding(horizontal = 3.dp, vertical = 2.dp),
+                                text = stringResource(R.string.submit_and_close_survey
+                            ))
                         }
                     }
                 }

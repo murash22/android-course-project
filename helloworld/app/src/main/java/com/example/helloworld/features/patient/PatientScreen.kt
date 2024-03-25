@@ -48,7 +48,13 @@ fun PatientScreen(
     val navController = rememberNavController()
     Scaffold (
         modifier = modifier,
-        bottomBar = { BottomNavBar(navController = navController, navItems = navItems) },
+        bottomBar = {
+            BottomNavBar(
+                navController = navController,
+                navItems = navItems,
+                visibleScreens = listOf(Routes.Home, Routes.Other)
+            )
+        },
     ) {paddingValues ->
         NavHost(navController = navController, startDestination = Routes.Home.route) {
             composable(

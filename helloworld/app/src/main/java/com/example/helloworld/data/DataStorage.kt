@@ -35,7 +35,7 @@ var USERS = listOf<UserDTO>(
 var SURVEYS = listOf<SurveyDTO>(
     SurveyDTO( // Закрытый опрос
         id = "2",
-        title = "Ежедневная проверка самочувствия",
+        title = "Проверка самочувствия (закрытый)",
         patientID = "1",
         doctorID = "3",
         openDate = "01.01.2024",
@@ -62,7 +62,7 @@ var SURVEYS = listOf<SurveyDTO>(
     ),
     SurveyDTO(  // Еще не проверенный, но пройденный опрос
         id = "3",
-        title = "Ежедневная проверка самочувствия",
+        title = "Проверка самочувствия (не проверенный)",
         patientID = "1",
         doctorID = "3",
         openDate = "02.01.2024",
@@ -89,7 +89,7 @@ var SURVEYS = listOf<SurveyDTO>(
     ),
     SurveyDTO(  // Еще не пройденный опрос
         id = "1",
-        title = "Ежедневная проверка самочувствия",
+        title = "Проверка самочувствия (не пройденный)",
         patientID = "1",
         doctorID = "3",
         openDate = "03.01.2024",
@@ -114,8 +114,8 @@ var SURVEYS = listOf<SurveyDTO>(
 
 
     SurveyDTO( // Закрытый опрос
-        id = "2",
-        title = "Ежедневная проверка самочувствия",
+        id = "4",
+        title = "Проверка самочувствия (закрытый)",
         patientID = "2",
         doctorID = "3",
         openDate = "05.03.2024",
@@ -141,8 +141,8 @@ var SURVEYS = listOf<SurveyDTO>(
         completed = true
     ),
     SurveyDTO(  // Еще не проверенный, но пройденный опрос
-        id = "3",
-        title = "Ежедневная проверка самочувствия",
+        id = "5",
+        title = "Проверка самочувствия (не проверенный)",
         patientID = "2",
         doctorID = "3",
         openDate = "06.03.2024",
@@ -168,8 +168,8 @@ var SURVEYS = listOf<SurveyDTO>(
         completed = true
     ),
     SurveyDTO(  // Еще не пройденный опрос
-        id = "1",
-        title = "Ежедневная проверка самочувствия",
+        id = "6",
+        title = "Проверка самочувствия (не пройденный)",
         patientID = "2",
         doctorID = "3",
         openDate = "07.03.2024",

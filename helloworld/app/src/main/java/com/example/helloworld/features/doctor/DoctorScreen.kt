@@ -1,5 +1,7 @@
 package com.example.helloworld.features.doctor
 
+import android.util.Log
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountBox
@@ -8,18 +10,33 @@ import androidx.compose.material.icons.outlined.AccountBox
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 import com.example.helloworld.DoctorRoutes
+import com.example.helloworld.R
 import com.example.helloworld.Routes
 import com.example.helloworld.core.navigation.NavItem
 import com.example.helloworld.core.ui.bottom_nav_bar.BottomNavBar
+import com.example.helloworld.core.ui.top_bar.TopBar
 import com.example.helloworld.features.doctor.check_survey.presentation.CheckSurveyScreen
-import com.example.helloworld.features.doctor.home_screen.presentation.DoctorHomeScreen
+import com.example.helloworld.features.doctor.home_screen.presentation.DoctorClosedSurveys
+import com.example.helloworld.features.doctor.home_screen.presentation.DoctorExpectingSurveys
+import com.example.helloworld.features.doctor.home_screen.presentation.DoctorHomeTopNavBar
+import com.example.helloworld.features.doctor.home_screen.presentation.DoctorUncheckedSurveys
 
 
 val navItems: List<NavItem<ImageVector>> = listOf(
@@ -39,33 +56,103 @@ val navItems: List<NavItem<ImageVector>> = listOf(
 fun DoctorScreen(
     modifier: Modifier = Modifier,
     doctorId: String,
-    doctorViewModel: DoctorViewModel = viewModel(),
 ) {
-    val doctor = doctorViewModel.getDoctor(doctorId)
-    val surveys = doctorViewModel.getSurveys(doctorId)
+    val doctorViewModel: DoctorViewModel = viewModel(
+        factory = object : ViewModelProvider.Factory {
+            override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                return DoctorViewModel(doctorId) as T
+            }
+        }
+    )
+    val doctor by doctorViewModel.doctor.collectAsState()
+//    val surveys by doctorViewModel.surveys.collectAsState()
+
     val navController = rememberNavController()
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+
+    val currentDestination = navBackStackEntry?.destination
+    val topBarTitle = if (currentDestination?.route == Routes.Other.route) {
+        stringResource(R.string.list_of_patients)
+    } else {
+        stringResource(R.string.hello_name, doctor.name)
+    }
+
+    var filteredSurveys by rememberSaveable {
+        mutableStateOf(doctorViewModel.onSearchPatients(""))
+    }
 
     Scaffold (
         modifier = modifier,
+        topBar = {
+            TopBar(
+                title = topBarTitle,
+                navController = navController,
+                visibleScreens = listOf(
+                    DoctorRoutes.UncheckedSurveys.route,
+                    DoctorRoutes.ExpectingSurveys.route,
+                    DoctorRoutes.ClosedSurveys.route
+                ),
+                onSearch = {
+                    filteredSurveys = doctorViewModel.onSearchPatients(it)
+                }
+            )
+        },
         bottomBar = {
             BottomNavBar(
                 navController = navController,
                 navItems = navItems,
-                visibleScreens = listOf(Routes.Home, Routes.Other)
+                visibleScreens = listOf(
+                    Routes.Home.route,
+                    Routes.Other.route,
+                    "unchecked_surveys",
+                    "expecting_surveys",
+                    "closed_surveys"
+                )
             )
         },
     ) {paddingValues ->
         NavHost(navController = navController, startDestination = Routes.Home.route) {
-            composable(
+
+            navigation(
                 route = Routes.Home.route,
+                startDestination = DoctorRoutes.UncheckedSurveys.route
             ) {
-                DoctorHomeScreen(
-                    modifier = Modifier.padding(paddingValues),
-                    navController = navController,
-                    doctorName =  doctor.name,
-                    surveys = surveys.filter { it.feedback.isEmpty() && it.completed }
-                )
+                composable(route = DoctorRoutes.UncheckedSurveys.route) {
+                    Column(
+                        modifier = modifier.padding(paddingValues)
+                    ) {
+                        DoctorHomeTopNavBar(navController = navController)
+                        DoctorUncheckedSurveys(
+                            navController = navController,
+                            surveys = filteredSurveys.filter { it.completed && it.feedback.isEmpty()},
+                            onCheckSurvey = {}
+                        )
+                    }
+                }
+
+                composable(route = DoctorRoutes.ExpectingSurveys.route) {
+                    Column(
+                        modifier = modifier.padding(paddingValues)
+                    ) {
+                        DoctorHomeTopNavBar(navController = navController)
+                        DoctorExpectingSurveys(
+                            surveys = filteredSurveys.filter { !it.completed }
+                        )
+                    }
+                }
+
+                composable(route = DoctorRoutes.ClosedSurveys.route) {
+                    Column(
+                        modifier = modifier.padding(paddingValues)
+                    ) {
+                        DoctorHomeTopNavBar(navController = navController)
+                        DoctorClosedSurveys(surveys = filteredSurveys.filter { it.completed && it.feedback.isNotEmpty() })
+                    }
+                }
             }
+
+
+
 
 //            composable(
 //                route = Routes.Other.route

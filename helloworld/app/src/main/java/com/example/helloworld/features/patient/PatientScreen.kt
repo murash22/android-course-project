@@ -52,7 +52,7 @@ fun PatientScreen(
             BottomNavBar(
                 navController = navController,
                 navItems = navItems,
-                visibleScreens = listOf(Routes.Home, Routes.Other)
+                visibleScreens = listOf(Routes.Home.route, Routes.Other.route)
             )
         },
     ) {paddingValues ->

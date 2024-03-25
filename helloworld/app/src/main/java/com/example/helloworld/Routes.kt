@@ -27,10 +27,16 @@ sealed class PatientRoutes(
 
 sealed class DoctorRoutes(
     val route: String,
-    val argName: String
+    val argName: String? = null
 ) {
     data object CheckSurvey: DoctorRoutes(route = "check_survey", argName = "id")
     fun checkSurveyWithArg(id: String) : String {
         return route + "/${id}"
     }
+
+    data object UncheckedSurveys: DoctorRoutes(route = "unchecked_surveys")
+
+    data object ExpectingSurveys: DoctorRoutes(route = "expecting_surveys")
+
+    data object ClosedSurveys: DoctorRoutes(route = "closed_surveys")
 }

@@ -121,7 +121,7 @@ fun EditPatientInfoScreen(
                     )
                     TextButton(
                         modifier = Modifier
-                            .padding(top = 400.dp, bottom = 100.dp)
+                            .padding(top = 200.dp, bottom = 100.dp)
                             .fillMaxWidth(),
                         border = BorderStroke(1.dp, Color.Black),
                         onClick = {

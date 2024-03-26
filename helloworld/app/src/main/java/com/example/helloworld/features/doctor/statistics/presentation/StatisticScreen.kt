@@ -29,6 +29,7 @@ import co.yml.charts.ui.piechart.models.PieChartData
 import com.example.helloworld.R
 import com.example.helloworld.data.PatientDTO
 import com.example.helloworld.data.PatientStatus
+import kotlin.math.round
 
 @Composable
 fun StatisticScreen(
@@ -121,7 +122,7 @@ fun StatisticScreen(
 
                                 )
                                 Text(
-                                    text = name.key.name,
+                                    text = name.key.name + " (${round(findStatusProportion(name.key, allStatuses).toDouble()*100)}%)",
                                     modifier.padding(start = 15.dp, end = 40.dp)
                                 )
                             }

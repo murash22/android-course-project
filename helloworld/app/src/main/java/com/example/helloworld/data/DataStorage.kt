@@ -23,6 +23,50 @@ var USERS = listOf<UserDTO>(
         sex = "Мужчина",
         status = PatientStatus.Cured
     ),
+    PatientDTO(
+        id = "5",
+        name = "Василий",
+        pin = "1234",
+        password = "qwerty",
+        email = "qwe@qwe.com",
+        age = "31",
+        diagnosis = "Туберкулез",
+        sex = "Мужчина",
+        status = PatientStatus.Relapse
+    ),
+    PatientDTO(
+        id = "6",
+        name = "Серафим",
+        pin = "0123",
+        password = "qwerty",
+        email = "qwe@qwe.com",
+        age = "38",
+        diagnosis = "ОРВИ",
+        sex = "Мужчина",
+        status = PatientStatus.Remission
+    ),
+    PatientDTO(
+        id = "7",
+        name = "Акакий",
+        pin = "2233",
+        password = "qwerty",
+        email = "qwe@qwe.com",
+        age = "38",
+        diagnosis = "Температура 40",
+        sex = "Мужчина",
+        status = PatientStatus.Relapse
+    ),
+    PatientDTO(
+        id = "8",
+        name = "Иннокентий",
+        pin = "3344",
+        password = "qwerty",
+        email = "qwe@qwe.com",
+        age = "38",
+        diagnosis = "Озноб",
+        sex = "Мужчина",
+        status = PatientStatus.Cured
+    ),
     DoctorDTO(
         id = "3",
         name = "Стрендж",

@@ -67,6 +67,17 @@ var USERS = listOf<UserDTO>(
         sex = "Мужчина",
         status = PatientStatus.Cured
     ),
+    PatientDTO(
+        id = "9",
+        name = "Игорь",
+        pin = "6667",
+        password = "qwerty",
+        email = "qwe@qwe.com",
+        age = "38",
+        diagnosis = "Кашель",
+        sex = "Мужчина",
+        status = PatientStatus.Relapse
+    ),
     DoctorDTO(
         id = "3",
         name = "Стрендж",
@@ -89,6 +100,11 @@ var SURVEYS = listOf<SurveyDTO>(
                 title = "Как вы себя чувствуете сегодня?",
                 options = listOf("Отлично", "Хорошо", "Плохо"),
                 answer = "Отлично"
+            ),
+            SurveyQuestion(
+                title = "Есть ли у вас с аппетит?",
+                options = listOf("Да", "Нет"),
+                answer = "Да"
             ),
             SurveyQuestion(
                 title = "Как вы оцениваете свой уровень энергии?",
@@ -155,8 +171,6 @@ var SURVEYS = listOf<SurveyDTO>(
         feedback = "",
         completed = false
     ),
-
-
     SurveyDTO( // Закрытый опрос
         id = "4",
         title = "Проверка самочувствия (закрытый)",

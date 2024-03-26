@@ -16,8 +16,8 @@ class PatientDTO(
     override val role: UserRole = UserRole.Patient,
     val sex: String,
     val age: String,
-    val diagnosis: String,
-    val status: PatientStatus
+    var diagnosis: String,
+    var status: PatientStatus
 ) : UserDTO {
 
 }

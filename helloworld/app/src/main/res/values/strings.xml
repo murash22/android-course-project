@@ -20,6 +20,10 @@
     <string name="sex">Пол</string>
     <string name="diagnosis">Диагноз</string>
     <string name="status">Статус</string>
+    <string name="edit_info">Редактирование информации о пациенте %1$s</string>
+    <string name="diagnoses">Диагноз:</string>
+    <string name="info_status">"Статус (рецедив, ремиссия, вылечился): "</string>
+    <string name="save_info">Сохранить</string>
     <string name="patient_surveys_name">Опросы пациента %1$s</string>
     <string name="add_survey">Добавить опрос</string>
 </resources>

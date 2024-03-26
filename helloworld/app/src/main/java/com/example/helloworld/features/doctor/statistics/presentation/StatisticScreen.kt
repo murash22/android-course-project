@@ -5,9 +5,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -22,6 +20,10 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import co.yml.charts.common.model.PlotType
+import co.yml.charts.ui.piechart.charts.PieChart
+import co.yml.charts.ui.piechart.models.PieChartConfig
+import co.yml.charts.ui.piechart.models.PieChartData
 import com.example.helloworld.data.PatientDTO
 import com.example.helloworld.data.PatientStatus
 
@@ -31,11 +33,34 @@ fun StatisticScreen(
     patients: List<PatientDTO>,
     modifier: Modifier = Modifier
 ) {
-    val colors = mapOf<String, Color>(
-        PatientStatus.Cured.name to Color.Green,
-        PatientStatus.Relapse.name to Color.Red,
-        PatientStatus.Remission.name to Color.Blue
+    val colors = mapOf<PatientStatus, Color>(
+        PatientStatus.Cured to Color.Green,
+        PatientStatus.Relapse to Color.Red,
+        PatientStatus.Remission to Color.Blue
     )
+
+    val allStatuses = mapOf<PatientStatus, Int>(
+        PatientStatus.Cured to (patients.filter { it.status == PatientStatus.Cured }).size,
+        PatientStatus.Relapse to (patients.filter { it.status == PatientStatus.Relapse }).size,
+        PatientStatus.Remission to (patients.filter { it.status == PatientStatus.Remission }).size
+    )
+
+    val dataList: MutableList<PieChartData.Slice> = mutableListOf()
+    for (name in colors) {
+        dataList.add(PieChartData.Slice(name.key.name, findStatusProportion(name.key, allStatuses), name.value))
+    }
+
+    val pieChartData = PieChartData(
+        slices = dataList,
+        plotType = PlotType.Pie
+    )
+
+    val pieChartConfig = PieChartConfig(
+        isAnimationEnable = true,
+        showSliceLabels = false,
+        animationDuration = 1500
+    )
+
     Column(
         modifier = modifier.padding(bottom = 25.dp),
     ) {
@@ -54,10 +79,12 @@ fun StatisticScreen(
             ) {
             items(2) { index ->
                 if (index == 0) {
-                    Box(
-                        modifier = modifier
-                            .fillMaxWidth()
-                            .heightIn(min = 400.dp)
+                    PieChart(
+                        modifier = Modifier
+                            .width(400.dp)
+                            .height(400.dp),
+                        pieChartData,
+                        pieChartConfig
                     )
                 }
                 if (index == 1) {
@@ -75,7 +102,7 @@ fun StatisticScreen(
                                         .width(40.dp)
 
                                 )
-                                Text(text = name.key, modifier.padding(start = 15.dp, end = 40.dp))
+                                Text(text = name.key.name, modifier.padding(start = 15.dp, end = 40.dp))
                             }
                         }
                     }
@@ -83,4 +110,13 @@ fun StatisticScreen(
             }
         }
     }
+}
+
+fun findStatusProportion(status: PatientStatus, statusesMap: Map<PatientStatus, Int>):Float {
+    var sum = 0
+    for (stat in statusesMap) {
+        sum += stat.value
+    }
+    val number = statusesMap[status]!!.toFloat()
+    return number / sum.toFloat()
 }

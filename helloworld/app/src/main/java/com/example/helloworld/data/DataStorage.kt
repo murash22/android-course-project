@@ -9,12 +9,12 @@ var USERS = listOf<UserDTO>(
         email = "qwe@qwe.com",
         age = "27",
         diagnosis = "Грипп",
-        sex = "male",
+        sex = "Мужчина",
         status = PatientStatus.Remission
     ),
     PatientDTO(
         id = "2",
-        name = "Дмитрий",
+        name = "Мужчина",
         pin = "2222",
         password = "qwerty",
         email = "qwe@qwe.com",

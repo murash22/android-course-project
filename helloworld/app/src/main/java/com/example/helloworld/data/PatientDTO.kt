@@ -1,9 +1,9 @@
 package com.example.helloworld.data
 
-enum class PatientStatus {
-    Cured,
-    Remission,
-    Relapse,
+sealed class PatientStatus(val name: String) {
+    data object Cured : PatientStatus("Вылечился")
+    data object Remission : PatientStatus("Ремиссия")
+    data object Relapse : PatientStatus("Рецидив")
 }
 
 

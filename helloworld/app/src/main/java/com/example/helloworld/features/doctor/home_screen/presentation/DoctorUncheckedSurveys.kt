@@ -23,7 +23,6 @@ import com.example.helloworld.data.USERS
 fun DoctorUncheckedSurveys(
     navController: NavController,
     surveys: List<SurveyDTO>,
-    onCheckSurvey: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     if (surveys.isNotEmpty()) {

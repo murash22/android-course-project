@@ -1,5 +1,6 @@
 package com.example.helloworld.features.doctor
 
+import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -8,6 +9,7 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.outlined.AccountBox
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -28,16 +30,18 @@ import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.helloworld.DoctorRoutes
+import com.example.helloworld.PatientRoutes
 import com.example.helloworld.R
 import com.example.helloworld.Routes
 import com.example.helloworld.core.navigation.NavItem
 import com.example.helloworld.core.ui.bottom_nav_bar.BottomNavBar
-import com.example.helloworld.core.ui.top_bar.TopBar
+import com.example.helloworld.core.ui.top_bar.TopSearchBar
 import com.example.helloworld.features.doctor.check_survey.presentation.CheckSurveyScreen
 import com.example.helloworld.features.doctor.home_screen.presentation.DoctorClosedSurveys
 import com.example.helloworld.features.doctor.home_screen.presentation.DoctorExpectingSurveys
 import com.example.helloworld.features.doctor.home_screen.presentation.DoctorHomeTopNavBar
 import com.example.helloworld.features.doctor.home_screen.presentation.DoctorUncheckedSurveys
+import com.example.helloworld.features.doctor.patients_list_screen.presentation.PatientsListScreen
 
 
 val navItems: List<NavItem<ImageVector>> = listOf(
@@ -48,7 +52,7 @@ val navItems: List<NavItem<ImageVector>> = listOf(
     ),
     NavItem(
         route = Routes.Other.route,
-        selectedIcon =  Icons.Filled.AccountBox,
+        selectedIcon = Icons.Filled.AccountBox,
         unselectedIcon = Icons.Outlined.AccountBox
     )
 )
@@ -65,35 +69,50 @@ fun DoctorScreen(
             }
         }
     )
-    val doctor by doctorViewModel.doctor.collectAsState()
-//    val surveys by doctorViewModel.surveys.collectAsState()
-
     val navController = rememberNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
 
     val currentDestination = navBackStackEntry?.destination
-    val topBarTitle = if (currentDestination?.route == Routes.Other.route) {
+    val topBarTitle = if (currentDestination?.route == DoctorRoutes.PatientsList.route) {
         stringResource(R.string.list_of_patients)
     } else {
-        stringResource(R.string.hello_name, doctor.name)
+        stringResource(R.string.surveys_list)
     }
 
     var filteredSurveys by rememberSaveable {
+        mutableStateOf(doctorViewModel.onSearchSurveys(""))
+    }
+
+    var filteredPatients by rememberSaveable {
         mutableStateOf(doctorViewModel.onSearchPatients(""))
     }
-    Scaffold (
+
+    var isResetSearchFilter by rememberSaveable {
+        mutableStateOf(false)
+    }
+
+    val barVisibleScreens = listOf(
+        DoctorRoutes.UncheckedSurveys.route,
+        DoctorRoutes.ExpectingSurveys.route,
+        DoctorRoutes.ClosedSurveys.route,
+        DoctorRoutes.PatientsList.route,
+    )
+
+    Scaffold(
         modifier = modifier,
         topBar = {
-            TopBar(
+            TopSearchBar(
                 title = topBarTitle,
                 navController = navController,
-                visibleScreens = listOf(
-                    DoctorRoutes.UncheckedSurveys.route,
-                    DoctorRoutes.ExpectingSurveys.route,
-                    DoctorRoutes.ClosedSurveys.route
-                ),
+                visibleScreens = barVisibleScreens,
+                isResetFilter = isResetSearchFilter,
                 onSearch = {
-                    filteredSurveys = doctorViewModel.onSearchPatients(it)
+                    isResetSearchFilter = false
+                    val parentRoute = navBackStackEntry?.destination?.parent?.route
+                    when (parentRoute) {
+                        Routes.Home.route -> filteredSurveys = doctorViewModel.onSearchSurveys(it)
+                        Routes.Other.route -> filteredPatients = doctorViewModel.onSearchPatients(it)
+                    }
                 }
             )
         },
@@ -101,22 +120,22 @@ fun DoctorScreen(
             BottomNavBar(
                 navController = navController,
                 navItems = navItems,
-                visibleScreens = listOf(
-                    Routes.Home.route,
-                    Routes.Other.route,
-                    DoctorRoutes.UncheckedSurveys.route,
-                    DoctorRoutes.ExpectingSurveys.route,
-                    DoctorRoutes.ClosedSurveys.route
-                )
+                onResetSearchFilter = {
+                    isResetSearchFilter = true
+                    filteredSurveys = doctorViewModel.onSearchSurveys("")
+                    filteredPatients = doctorViewModel.onSearchPatients("")
+                },
+                visibleScreens = barVisibleScreens
             )
         },
-    ) {paddingValues ->
+    ) { paddingValues ->
         NavHost(navController = navController, startDestination = Routes.Home.route) {
 
-            navigation(
+            navigation( //home
                 route = Routes.Home.route,
                 startDestination = DoctorRoutes.UncheckedSurveys.route
             ) {
+                // home/unchecked_survveys
                 composable(route = DoctorRoutes.UncheckedSurveys.route) {
                     Column(
                         modifier = modifier.padding(paddingValues)
@@ -124,12 +143,11 @@ fun DoctorScreen(
                         DoctorHomeTopNavBar(navController = navController)
                         DoctorUncheckedSurveys(
                             navController = navController,
-                            surveys = filteredSurveys.filter { it.completed && it.feedback.isEmpty()},
-                            onCheckSurvey = {}
+                            surveys = filteredSurveys.filter { it.completed && it.feedback.isEmpty() },
                         )
                     }
                 }
-
+                // home/expecting_survveys
                 composable(route = DoctorRoutes.ExpectingSurveys.route) {
                     Column(
                         modifier = modifier.padding(paddingValues)
@@ -140,7 +158,7 @@ fun DoctorScreen(
                         )
                     }
                 }
-
+                // home/closed_survveys
                 composable(route = DoctorRoutes.ClosedSurveys.route) {
                     Column(
                         modifier = modifier.padding(paddingValues)
@@ -151,7 +169,7 @@ fun DoctorScreen(
                 }
             }
 
-            composable(
+            composable( // check_survey/{id}
                 route = DoctorRoutes.CheckSurvey.route + "/{${DoctorRoutes.CheckSurvey.argName}}",
                 arguments = listOf(
                     navArgument(DoctorRoutes.CheckSurvey.argName ?: "id") {
@@ -160,7 +178,9 @@ fun DoctorScreen(
                     }
                 )
             ) { entry ->
-                val surveyCard = filteredSurveys.find { it.id == (entry.arguments?.getString(DoctorRoutes.CheckSurvey.argName) ?: "0") }!!
+                val surveyCard = filteredSurveys.find {
+                    it.id == (entry.arguments?.getString(DoctorRoutes.CheckSurvey.argName) ?: "0")
+                }!!
                 CheckSurveyScreen(
                     navController = navController,
                     surveyCard = surveyCard,
@@ -170,17 +190,63 @@ fun DoctorScreen(
                 )
             }
 
+            navigation( // other
+                route = Routes.Other.route,
+                startDestination = DoctorRoutes.PatientsList.route
+            ) {
 
-//            composable(
-//                route = Routes.Other.route
-//            ) {
-//                PatientSurveysScreen(
-//                    modifier = Modifier.padding(paddingValues),
-//                    surveys = surveys
-//                )
-//            }
-//
-//
+                // other/patients
+                composable(route = DoctorRoutes.PatientsList.route) {
+                    PatientsListScreen(
+                        patients = filteredPatients,
+                        onClickPatient = {id ->
+                            navController.navigate(DoctorRoutes.PatientsList.route + "/${id}/surveys")
+                        },
+                        modifier = modifier.padding(paddingValues)
+                    )
+                }
+
+                // other/patients/{id}/surveys
+                composable(
+                    route = DoctorRoutes.PatientSurveys.route,
+                    arguments = listOf(
+                        navArgument(DoctorRoutes.PatientSurveys.argName!!) {
+                            type = NavType.StringType
+                            nullable = false
+                        }
+                    ),
+                ) {entry->
+                    val patientId = entry.arguments?.getString(DoctorRoutes.PatientSurveys.argName!!)!!
+                    Log.d("CURRENT SURVEYS", patientId)
+                    Text(text = entry.destination?.route ?: "NOROUTE")
+                }
+
+                // other/patients/{id}/info
+                composable(
+                    route = DoctorRoutes.PatientInfo.route,
+                    arguments = listOf(
+                        navArgument(DoctorRoutes.PatientInfo.argName!!) {
+                            type = NavType.StringType
+                            nullable = false
+                        }
+                    )
+                ) {entry->
+                    val patientId = entry.arguments?.getString(DoctorRoutes.PatientInfo.argName!!)!!
+                }
+
+                // other/patients/{id}/create_survey
+                composable(
+                    route = DoctorRoutes.PatientCreateSurvey.route,
+                    arguments = listOf(
+                        navArgument(DoctorRoutes.PatientCreateSurvey.argName!!) {
+                            type = NavType.StringType
+                            nullable = false
+                        }
+                    )
+                ) {entry->
+                    val patientId = entry.arguments?.getString(DoctorRoutes.PatientCreateSurvey.argName!!)!!
+                }
+            }
         }
     }
 }

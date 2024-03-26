@@ -24,11 +24,11 @@ class DoctorViewModel(
     val surveys: StateFlow<List<SurveyDTO>> = _surveys.asStateFlow()
 
     private var _patients = MutableStateFlow(USERS.filter {
-        user -> surveys.value.any { user.id == it.patientID }
+        user -> surveys.value.any { user.id == it.patientID && user.role == UserRole.Patient}
     })
     val patients: StateFlow<List<UserDTO>> = _patients.asStateFlow()
 
-    fun onSearchPatients(str: String) : List<SurveyDTO> {
+    fun onSearchSurveys(str: String) : List<SurveyDTO> {
         if (str.isNotEmpty()) {
             val tmp = _patients.value.filter { it.name.contains(str, true) }
             return _surveys.value.filter {survey ->
@@ -36,12 +36,23 @@ class DoctorViewModel(
             }
 
         }
-        return SURVEYS.filter { it.doctorID == doctorId }
+        return _surveys.value
 
+    }
+
+    fun onSearchPatients(str: String) : List<PatientDTO> {
+        if (str.isNotEmpty()) {
+            return _patients.value.filter { it.name.contains(str, true) } as List<PatientDTO>
+        }
+        return _patients.value as List<PatientDTO>
     }
 
     fun getPatient(id: String) : PatientDTO {
         return _patients.value.find { it.id == id && it.role == UserRole.Patient } as PatientDTO
+    }
+
+    fun getPatientList() : List<PatientDTO> {
+        return patients.value as List<PatientDTO>
     }
 
     fun onCheckSurvey(id: String, feedback: String) {
@@ -50,30 +61,5 @@ class DoctorViewModel(
         foundSurvey?.closeDate = LocalDate.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))
     }
 
-//    fun onSubmitSurvey(id: String) {
-//        _surveys.update { currentState ->
-//            currentState.map {
-//                if (it.id == id) {
-//                    it.completed =true
-//                    it
-//                } else {
-//                    it
-//                }
-//            }
-//        }
-//        SURVEYS = _surveys.value
-//    }
-
-//    fun onSubmitQuestionAnswer(surveyId: String, questionTitle: String, answer: String) {
-//        for (survey in surveys.value) {
-//            if (survey.id == surveyId) {
-//                for (question in survey.questions) {
-//                    if (question.title == questionTitle) {
-//                        question.answer = answer
-//                    }
-//                }
-//            }
-//        }
-//    }
 
 }

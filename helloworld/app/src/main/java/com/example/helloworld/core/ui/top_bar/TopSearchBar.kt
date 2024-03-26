@@ -18,11 +18,12 @@ import com.example.helloworld.core.ui.about_button.AboutButton
 import com.example.helloworld.core.ui.search_text_field.SearchTextField
 
 @Composable
-fun TopBar(
+fun TopSearchBar(
     modifier: Modifier = Modifier,
     title: String,
     navController: NavController,
     visibleScreens: List<String>,
+    isResetFilter: Boolean,
     onSearch: (String) -> Unit
 ) {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
@@ -48,6 +49,7 @@ fun TopBar(
                 AboutButton(modifier = Modifier)
             }
             SearchTextField(
+                isResetFilter = isResetFilter,
                 onSearch = onSearch
             )
         }

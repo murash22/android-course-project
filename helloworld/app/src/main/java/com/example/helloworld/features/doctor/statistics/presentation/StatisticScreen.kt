@@ -18,12 +18,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import co.yml.charts.common.model.PlotType
 import co.yml.charts.ui.piechart.charts.PieChart
 import co.yml.charts.ui.piechart.models.PieChartConfig
 import co.yml.charts.ui.piechart.models.PieChartData
+import com.example.helloworld.R
 import com.example.helloworld.data.PatientDTO
 import com.example.helloworld.data.PatientStatus
 
@@ -47,7 +50,13 @@ fun StatisticScreen(
 
     val dataList: MutableList<PieChartData.Slice> = mutableListOf()
     for (name in colors) {
-        dataList.add(PieChartData.Slice(name.key.name, findStatusProportion(name.key, allStatuses), name.value))
+        dataList.add(
+            PieChartData.Slice(
+                name.key.name,
+                findStatusProportion(name.key, allStatuses),
+                name.value
+            )
+        )
     }
 
     val pieChartData = PieChartData(
@@ -77,8 +86,17 @@ fun StatisticScreen(
             modifier = Modifier.padding(horizontal = 9.dp),
 
             ) {
-            items(2) { index ->
+            items(3) { index ->
                 if (index == 0) {
+                    Text(
+                        modifier = Modifier.padding(vertical = 5.dp),
+                        fontSize = 20.sp,
+                        text = stringResource(
+                            R.string.statistics
+                        )
+                    )
+                }
+                if (index == 1) {
                     PieChart(
                         modifier = Modifier
                             .width(400.dp)
@@ -87,7 +105,7 @@ fun StatisticScreen(
                         pieChartConfig
                     )
                 }
-                if (index == 1) {
+                if (index == 2) {
                     Column(
                         modifier = modifier.padding(vertical = 10.dp)
                     ) {
@@ -102,7 +120,10 @@ fun StatisticScreen(
                                         .width(40.dp)
 
                                 )
-                                Text(text = name.key.name, modifier.padding(start = 15.dp, end = 40.dp))
+                                Text(
+                                    text = name.key.name,
+                                    modifier.padding(start = 15.dp, end = 40.dp)
+                                )
                             }
                         }
                     }
@@ -112,7 +133,7 @@ fun StatisticScreen(
     }
 }
 
-fun findStatusProportion(status: PatientStatus, statusesMap: Map<PatientStatus, Int>):Float {
+fun findStatusProportion(status: PatientStatus, statusesMap: Map<PatientStatus, Int>): Float {
     var sum = 0
     for (stat in statusesMap) {
         sum += stat.value

@@ -218,10 +218,10 @@ fun DoctorScreen(
                         surveys = doctorViewModel.getPatientSurveys(patientId),
                         onBack = {navController.popBackStack()},
                         onPatientInfo = {
-                            navController.navigate(DoctorRoutes.PatientInfo.route.replace("id", patientId))
+                            navController.navigate(DoctorRoutes.PatientInfo.route.replace("{id}", patientId))
                         },
                         onAddSurvey = {
-                            navController.navigate(DoctorRoutes.PatientCreateSurvey.route.replace("id", patientId))
+                            navController.navigate(DoctorRoutes.PatientCreateSurvey.route.replace("{id}", patientId))
                         },
                         patient = doctorViewModel.getPatient(patientId)
                     )

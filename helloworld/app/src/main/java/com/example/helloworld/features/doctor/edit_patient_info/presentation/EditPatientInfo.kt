@@ -53,7 +53,7 @@ fun EditPatientInfoScreen(
     val statusMap = mapOf<String, PatientStatus>(
         "вылечился" to PatientStatus.Cured,
         "ремиссия" to PatientStatus.Remission,
-        "рецидив" to PatientStatus.Relapse
+        "рецедив" to PatientStatus.Relapse
     )
     val context = LocalContext.current
     var white by rememberSaveable { mutableStateOf(true) }
@@ -109,6 +109,7 @@ fun EditPatientInfoScreen(
                         value = status,
                         onValueChange = { input ->
                             status = input
+                            white = true
                         },
                         singleLine = true,
                         colors = TextFieldDefaults.colors(

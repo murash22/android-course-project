@@ -5,6 +5,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -53,12 +54,12 @@ fun EditPatientInfoScreen(
     val statusMap = mapOf<String, PatientStatus>(
         "вылечился" to PatientStatus.Cured,
         "ремиссия" to PatientStatus.Remission,
-        "рецедив" to PatientStatus.Relapse
+        "рецидив" to PatientStatus.Relapse
     )
     val context = LocalContext.current
     var white by rememberSaveable { mutableStateOf(true) }
     Column(
-        modifier = modifier.padding(bottom = 25.dp)
+        modifier = modifier.padding(bottom = 25.dp),
     ) {
         Icon(
             modifier = Modifier
@@ -70,7 +71,8 @@ fun EditPatientInfoScreen(
             contentDescription = null
         )
         LazyColumn(
-            modifier = Modifier.padding(horizontal = 9.dp)
+            modifier = Modifier.padding(horizontal = 9.dp),
+
         ) {
             itemsIndexed(items) { index, content ->
                 if (index == 0) {
@@ -83,7 +85,7 @@ fun EditPatientInfoScreen(
                 }
                 if (index == 1) {
                     Text(
-                        modifier = Modifier.padding(vertical = 5.dp),
+                        modifier = Modifier.padding(top = 30.dp, bottom = 8.dp),
                         fontSize = 15.sp,
                         text = stringResource(R.string.diagnoses)
                     )
@@ -101,7 +103,7 @@ fun EditPatientInfoScreen(
                 }
                 if (index == 2) {
                     Text(
-                        modifier = Modifier.padding(vertical = 5.dp),
+                        modifier = Modifier.padding(top = 30.dp, bottom = 8.dp),
                         fontSize = 15.sp,
                         text = stringResource(R.string.info_status)
                     )
@@ -119,7 +121,7 @@ fun EditPatientInfoScreen(
                     )
                     TextButton(
                         modifier = Modifier
-                            .padding(vertical = 5.dp)
+                            .padding(top = 400.dp, bottom = 100.dp)
                             .fillMaxWidth(),
                         border = BorderStroke(1.dp, Color.Black),
                         onClick = {

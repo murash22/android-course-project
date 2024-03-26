@@ -116,7 +116,31 @@ fun EditPatientInfoScreen(
                             focusedContainerColor = if (white) Color.White else Color.Red,
                         ),
                     )
-                    
+                    TextButton(
+                        modifier = Modifier
+                            .padding(vertical = 5.dp)
+                            .fillMaxWidth(),
+                        border = BorderStroke(1.dp, Color.Black),
+                        onClick = {
+                            val temp_status = status.lowercase()
+                            if (statusMap[temp_status] == null){
+                                white = false
+                            }
+                            else {
+                                white = true
+                                patient.status = statusMap[status] ?: PatientStatus.Cured
+                                patient.diagnosis = diagnosis
+                                navController.popBackStack()
+                            }
+                        }
+                    ) {
+                        Text(
+                            color = Color.Black,
+                            fontSize = 16.sp,
+                            modifier = Modifier.padding(horizontal = 3.dp, vertical = 2.dp),
+                            text = stringResource(R.string.save_info)
+                        )
+                    }
                 }
             }
         }

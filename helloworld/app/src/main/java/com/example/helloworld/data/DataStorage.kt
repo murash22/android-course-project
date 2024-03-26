@@ -78,6 +78,17 @@ var USERS = listOf<UserDTO>(
         sex = "Мужчина",
         status = PatientStatus.Relapse
     ),
+    PatientDTO(
+        id = "10",
+        name = "Олег",
+        pin = "1100",
+        password = "qwerty",
+        email = "qwe@qwe.com",
+        age = "38",
+        diagnosis = "Алкоголизм",
+        sex = "Мужчина",
+        status = PatientStatus.Relapse
+    ),
     DoctorDTO(
         id = "3",
         name = "Стрендж",

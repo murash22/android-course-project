@@ -1,6 +1,5 @@
 package com.example.helloworld.core.ui.survey_card
 
-import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -19,6 +18,7 @@ import androidx.compose.ui.unit.sp
 fun SurveyCard(
     title: String,
     body: String,
+    borderColor: Color = Color.Unspecified,
     onClick: (() -> Unit)? = null
 ) {
     var modifier = Modifier
@@ -31,7 +31,8 @@ fun SurveyCard(
     Surface(
         modifier = modifier,
         shape = RoundedCornerShape(5.dp),
-        border = BorderStroke(1.dp, Color.Black)
+        border = BorderStroke(1.dp, Color.Black),
+        color = borderColor
     ) {
         Column(
             modifier = Modifier
@@ -51,13 +52,3 @@ fun SurveyCard(
         }
     }
 }
-
-//@Preview(showSystemUi = true, showBackground = true)
-//@Composable
-//fun SurveyCardPreview() {
-//    LazyColumn {
-//        items(5) { survey ->
-//            SurveyCard(title = "Опрос от доктора $survey", body = "Как дела?", )
-//        }
-//    }
-//}

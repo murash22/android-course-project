@@ -1,6 +1,5 @@
 package com.example.helloworld.features.doctor
 
-import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -9,9 +8,7 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.outlined.AccountBox
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -30,7 +27,6 @@ import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.helloworld.DoctorRoutes
-import com.example.helloworld.PatientRoutes
 import com.example.helloworld.R
 import com.example.helloworld.Routes
 import com.example.helloworld.core.navigation.NavItem
@@ -41,6 +37,7 @@ import com.example.helloworld.features.doctor.home_screen.presentation.DoctorClo
 import com.example.helloworld.features.doctor.home_screen.presentation.DoctorExpectingSurveys
 import com.example.helloworld.features.doctor.home_screen.presentation.DoctorHomeTopNavBar
 import com.example.helloworld.features.doctor.home_screen.presentation.DoctorUncheckedSurveys
+import com.example.helloworld.features.doctor.patient_surveys.presentation.PatientSurveysScreen
 import com.example.helloworld.features.doctor.patients_list_screen.presentation.PatientsListScreen
 
 
@@ -217,8 +214,17 @@ fun DoctorScreen(
                     ),
                 ) {entry->
                     val patientId = entry.arguments?.getString(DoctorRoutes.PatientSurveys.argName!!)!!
-                    Log.d("CURRENT SURVEYS", patientId)
-                    Text(text = entry.destination?.route ?: "NOROUTE")
+                    PatientSurveysScreen(
+                        surveys = doctorViewModel.getPatientSurveys(patientId),
+                        onBack = {navController.popBackStack()},
+                        onPatientInfo = {
+                            navController.navigate(DoctorRoutes.PatientInfo.route.replace("id", patientId))
+                        },
+                        onAddSurvey = {
+                            navController.navigate(DoctorRoutes.PatientCreateSurvey.route.replace("id", patientId))
+                        },
+                        patient = doctorViewModel.getPatient(patientId)
+                    )
                 }
 
                 // other/patients/{id}/info

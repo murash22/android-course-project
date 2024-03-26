@@ -20,4 +20,6 @@
     <string name="sex">Пол</string>
     <string name="diagnosis">Диагноз</string>
     <string name="status">Статус</string>
+    <string name="patient_surveys_name">Опросы пациента %1$s</string>
+    <string name="add_survey">Добавить опрос</string>
 </resources>

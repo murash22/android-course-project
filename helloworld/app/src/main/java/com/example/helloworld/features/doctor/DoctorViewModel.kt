@@ -21,10 +21,10 @@ class DoctorViewModel(
     val doctor: StateFlow<UserDTO> = _user.asStateFlow()
 
     private var _surveys = MutableStateFlow(SURVEYS.filter { it.doctorID == doctorId })
-    val surveys: StateFlow<List<SurveyDTO>> = _surveys.asStateFlow()
+//    val surveys: StateFlow<List<SurveyDTO>> = _surveys.asStateFlow()
 
     private var _patients = MutableStateFlow(USERS.filter {
-        user -> surveys.value.any { user.id == it.patientID && user.role == UserRole.Patient}
+        user -> _surveys.value.any { user.id == it.patientID && user.role == UserRole.Patient}
     })
     val patients: StateFlow<List<UserDTO>> = _patients.asStateFlow()
 
@@ -51,8 +51,8 @@ class DoctorViewModel(
         return _patients.value.find { it.id == id && it.role == UserRole.Patient } as PatientDTO
     }
 
-    fun getPatientList() : List<PatientDTO> {
-        return patients.value as List<PatientDTO>
+    fun getPatientSurveys(id: String) : List<SurveyDTO> {
+        return _surveys.value.filter { it.patientID == id }
     }
 
     fun onCheckSurvey(id: String, feedback: String) {

@@ -37,6 +37,7 @@ import com.example.helloworld.core.navigation.NavItem
 import com.example.helloworld.core.ui.bottom_nav_bar.BottomNavBar
 import com.example.helloworld.core.ui.top_bar.TopSearchBar
 import com.example.helloworld.features.doctor.check_survey.presentation.CheckSurveyScreen
+import com.example.helloworld.features.doctor.edit_patient_info.presentation.EditPatientInfoScreen
 import com.example.helloworld.features.doctor.home_screen.presentation.DoctorClosedSurveys
 import com.example.helloworld.features.doctor.home_screen.presentation.DoctorExpectingSurveys
 import com.example.helloworld.features.doctor.home_screen.presentation.DoctorHomeTopNavBar
@@ -111,7 +112,8 @@ fun DoctorScreen(
                     val parentRoute = navBackStackEntry?.destination?.parent?.route
                     when (parentRoute) {
                         Routes.Home.route -> filteredSurveys = doctorViewModel.onSearchSurveys(it)
-                        Routes.Other.route -> filteredPatients = doctorViewModel.onSearchPatients(it)
+                        Routes.Other.route -> filteredPatients =
+                            doctorViewModel.onSearchPatients(it)
                     }
                 }
             )
@@ -199,7 +201,7 @@ fun DoctorScreen(
                 composable(route = DoctorRoutes.PatientsList.route) {
                     PatientsListScreen(
                         patients = filteredPatients,
-                        onClickPatient = {id ->
+                        onClickPatient = { id ->
                             navController.navigate(DoctorRoutes.PatientsList.route + "/${id}/surveys")
                         },
                         modifier = modifier.padding(paddingValues)
@@ -215,10 +217,9 @@ fun DoctorScreen(
                             nullable = false
                         }
                     ),
-                ) {entry->
-                    val patientId = entry.arguments?.getString(DoctorRoutes.PatientSurveys.argName!!)!!
-                    Log.d("CURRENT SURVEYS", patientId)
-                    Text(text = entry.destination?.route ?: "NOROUTE")
+                ) { entry ->
+                    val patientId =
+                        entry.arguments?.getString(DoctorRoutes.PatientSurveys.argName!!)!!
                 }
 
                 // other/patients/{id}/info
@@ -230,8 +231,13 @@ fun DoctorScreen(
                             nullable = false
                         }
                     )
-                ) {entry->
+                ) { entry ->
                     val patientId = entry.arguments?.getString(DoctorRoutes.PatientInfo.argName!!)!!
+                    EditPatientInfoScreen(
+                        navController = navController,
+                        patient = doctorViewModel.getPatient(patientId)
+                    )
+
                 }
 
                 // other/patients/{id}/create_survey
@@ -243,8 +249,9 @@ fun DoctorScreen(
                             nullable = false
                         }
                     )
-                ) {entry->
-                    val patientId = entry.arguments?.getString(DoctorRoutes.PatientCreateSurvey.argName!!)!!
+                ) { entry ->
+                    val patientId =
+                        entry.arguments?.getString(DoctorRoutes.PatientCreateSurvey.argName!!)!!
                 }
             }
         }

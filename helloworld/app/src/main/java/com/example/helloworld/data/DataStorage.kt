@@ -14,13 +14,13 @@ var USERS = listOf<UserDTO>(
     ),
     PatientDTO(
         id = "2",
-        name = "Мужчина",
+        name = "Дмитрий",
         pin = "2222",
         password = "qwerty",
         email = "qwe@qwe.com",
         age = "29",
         diagnosis = "Простуда",
-        sex = "female",
+        sex = "Мужчина",
         status = PatientStatus.Cured
     ),
     DoctorDTO(

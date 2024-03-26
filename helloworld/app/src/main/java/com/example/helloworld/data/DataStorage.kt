@@ -40,7 +40,7 @@ var USERS = listOf<UserDTO>(
         pin = "0123",
         password = "qwerty",
         email = "qwe@qwe.com",
-        age = "38",
+        age = "22",
         diagnosis = "ОРВИ",
         sex = "Мужчина",
         status = PatientStatus.Remission
@@ -51,7 +51,7 @@ var USERS = listOf<UserDTO>(
         pin = "2233",
         password = "qwerty",
         email = "qwe@qwe.com",
-        age = "38",
+        age = "18",
         diagnosis = "Температура 40",
         sex = "Мужчина",
         status = PatientStatus.Relapse
@@ -62,10 +62,65 @@ var USERS = listOf<UserDTO>(
         pin = "3344",
         password = "qwerty",
         email = "qwe@qwe.com",
-        age = "38",
+        age = "55",
         diagnosis = "Озноб",
         sex = "Мужчина",
         status = PatientStatus.Cured
+    ),
+    PatientDTO(
+        id = "9",
+        name = "Игорь",
+        pin = "6667",
+        password = "qwerty",
+        email = "qwe@qwe.com",
+        age = "45",
+        diagnosis = "Кашель",
+        sex = "Мужчина",
+        status = PatientStatus.Relapse
+    ),
+    PatientDTO(
+        id = "10",
+        name = "Олег",
+        pin = "1100",
+        password = "qwerty",
+        email = "qwe@qwe.com",
+        age = "21",
+        diagnosis = "Алкоголизм",
+        sex = "Мужчина",
+        status = PatientStatus.Relapse
+    ),
+    PatientDTO(
+        id = "11",
+        name = "Анна",
+        pin = "0099",
+        password = "qwerty",
+        email = "qwe@qwe.com",
+        age = "24",
+        diagnosis = "Кашель",
+        sex = "Женщина",
+        status = PatientStatus.Cured
+    ),
+    PatientDTO(
+        id = "12",
+        name = "Петр",
+        pin = "0909",
+        password = "qwerty",
+        email = "qwe@qwe.com",
+        age = "56",
+        diagnosis = "Головокружение",
+        sex = "Мужчина",
+        status = PatientStatus.Remission
+    ),
+    PatientDTO(
+        id = "13",
+        name = "Алексей",
+        pin = "1010",
+        password = "qwerty",
+        email = "qwe@qwe.com",
+        age = "22",
+        diagnosis = "Хим. ожог",
+        sex = "Мужчина",
+        status = PatientStatus.Relapse
     ),
     DoctorDTO(
         id = "3",
@@ -89,6 +144,11 @@ var SURVEYS = listOf<SurveyDTO>(
                 title = "Как вы себя чувствуете сегодня?",
                 options = listOf("Отлично", "Хорошо", "Плохо"),
                 answer = "Отлично"
+            ),
+            SurveyQuestion(
+                title = "Есть ли у вас с аппетит?",
+                options = listOf("Да", "Нет"),
+                answer = "Да"
             ),
             SurveyQuestion(
                 title = "Как вы оцениваете свой уровень энергии?",
@@ -155,8 +215,6 @@ var SURVEYS = listOf<SurveyDTO>(
         feedback = "",
         completed = false
     ),
-
-
     SurveyDTO( // Закрытый опрос
         id = "4",
         title = "Проверка самочувствия (закрытый)",

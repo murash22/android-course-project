@@ -26,9 +26,11 @@ import com.example.helloworld.R
 fun SearchTextField(
     onSearch: (String) -> Unit,
     label: String = "Поиск",
+    isResetFilter: Boolean,
     modifier: Modifier = Modifier,
 ) {
     var searchText by rememberSaveable { mutableStateOf("") }
+    if (isResetFilter) searchText = ""
     Row(
         modifier = Modifier
             .fillMaxWidth()

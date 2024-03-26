@@ -9,7 +9,7 @@ var USERS = listOf<UserDTO>(
         email = "qwe@qwe.com",
         age = "27",
         diagnosis = "Грипп",
-        sex = "male",
+        sex = "Мужчина",
         status = PatientStatus.Remission
     ),
     PatientDTO(
@@ -20,7 +20,7 @@ var USERS = listOf<UserDTO>(
         email = "qwe@qwe.com",
         age = "29",
         diagnosis = "Простуда",
-        sex = "female",
+        sex = "Мужчина",
         status = PatientStatus.Cured
     ),
     DoctorDTO(

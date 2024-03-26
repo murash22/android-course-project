@@ -21,7 +21,8 @@ fun BottomNavBar(
     modifier: Modifier = Modifier,
     navController: NavController,
     visibleScreens: List<String>,
-    navItems: List<NavItem<ImageVector>>
+    navItems: List<NavItem<ImageVector>>,
+    onResetSearchFilter: (() -> Unit)? = null,
 ) {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
@@ -36,6 +37,7 @@ fun BottomNavBar(
                     selected = currentDestination?.hierarchy?.any { it.route == navItem.route } == true,
                     onClick = {
                         navController.navigate(navItem.route) {
+                            onResetSearchFilter?.invoke()
                             // Pop up to the start destination of the graph to
                             // avoid building up a large stack of destinations
                             // on the back stack as users select items

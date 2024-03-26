@@ -39,4 +39,12 @@ sealed class DoctorRoutes(
     data object ExpectingSurveys: DoctorRoutes(route = "expecting_surveys")
 
     data object ClosedSurveys: DoctorRoutes(route = "closed_surveys")
+
+    data object PatientsList: DoctorRoutes(route = "patients")
+
+    data object PatientSurveys: DoctorRoutes(route = "patients/{id}/surveys", argName = "id")
+
+    data object PatientInfo: DoctorRoutes(route = "patients/{id}/info", argName = "id")
+
+    data object PatientCreateSurvey: DoctorRoutes(route = "patients/{id}/create_survey", argName = "id")
 }

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Hello World</string>
+    <string name="app_name">Patients</string>
     <string name="no_available_survey">Список опросов пуст.</string>
     <string name="hello_name">Привет, %1$s!</string>
     <string name="survey_from_doctor_name">Опрос от доктора %1$s</string>

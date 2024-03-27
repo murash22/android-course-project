@@ -16,6 +16,14 @@ class PatientViewModel : ViewModel() {
     private val _surveys = MutableStateFlow(SURVEYS)
     val surveys = _surveys.asStateFlow()
 
+
+    fun resetSurveyAnswers(id: String) {
+        _surveys.value.find { id == it.id }
+            ?.questions?.map {
+                it.answer = ""
+            }
+    }
+
     fun onSubmitSurvey(id: String) {
         _surveys.update { currentState ->
             currentState.map {

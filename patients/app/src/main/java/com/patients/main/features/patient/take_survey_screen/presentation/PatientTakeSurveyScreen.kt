@@ -1,6 +1,7 @@
 package com.patients.main.features.patient.take_survey_screen.presentation
 
 import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -24,6 +25,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -34,19 +36,30 @@ import com.patients.main.core.ui.alert_dialog.ConfirmationDialog
 import com.patients.main.data.SurveyDTO
 import com.patients.main.data.SurveyQuestion
 
+private fun checkSurveyFilled(survey: SurveyDTO) : Boolean {
+    for (q in survey.questions) {
+        if (!q.options.any { it == q.answer }) {
+            return false
+        }
+    }
+    return true
+}
 
-//@Preview(showBackground = true)
+
 @Composable
 fun PatientTakeSurveyScreen(
     modifier: Modifier = Modifier,
     surveyCard: SurveyDTO,
-    nav: NavController,
     onSubmitSurvey: (String) -> Unit,
+    onResetSurveyAnswers: (String) -> Unit,
     onSubmitQuestionAnswer: (String, String, String) -> Unit,
     navController: NavController
 ) {
     var showConfirmationDialog by rememberSaveable {
         mutableStateOf(false)
+    }
+    var isSurveyFilled by rememberSaveable {
+        mutableStateOf(true)
     }
     BackHandler(
         enabled = true,
@@ -58,13 +71,16 @@ fun PatientTakeSurveyScreen(
     if (showConfirmationDialog) {
         ConfirmationDialog.Show { confirmed ->
             if (confirmed) {
+                onResetSurveyAnswers(surveyCard.id)
                 navController.popBackStack()
             } else {
                 showConfirmationDialog = false
             }
         }
     }
-    Column(modifier = modifier) {
+    Column(
+        modifier = modifier
+    ) {
         Row(
             modifier = Modifier,
             verticalAlignment = Alignment.CenterVertically
@@ -81,8 +97,11 @@ fun PatientTakeSurveyScreen(
             Spacer(modifier = Modifier.weight(1f))
             TextButton(
                 onClick = {
-                    onSubmitSurvey(surveyCard.id)
-                    nav.popBackStack()
+                    isSurveyFilled = checkSurveyFilled(surveyCard)
+                    if (isSurveyFilled) {
+                        onSubmitSurvey(surveyCard.id)
+                        navController.popBackStack()
+                    }
                 }
             ) {
                 Text(stringResource(R.string.submit))
@@ -98,7 +117,14 @@ fun PatientTakeSurveyScreen(
             fontSize = 20.sp
         )
 
-        LazyColumn {
+        LazyColumn(
+            modifier = Modifier
+                .padding(3.dp)
+                .border(
+                    width = 1.dp,
+                    color = if (isSurveyFilled) Color.Unspecified else Color.Red
+                )
+        ) {
             items(surveyCard.questions) {
                 QuestionCard(question = it, unSubmitAnswer = onSubmitQuestionAnswer, surveyId = surveyCard.id)
             }
@@ -115,10 +141,10 @@ private fun QuestionCard(
     unSubmitAnswer: (String, String, String) -> Unit
 ) {
     var selectedAns by rememberSaveable{
-        mutableStateOf(question.options[0])
+        mutableStateOf("")
     }
 
-    val onSelect: (String) -> Unit = {ans ->
+    val onSelect: (String) -> Unit = { ans ->
         selectedAns = ans
         unSubmitAnswer(surveyId, question.id, ans)
     }

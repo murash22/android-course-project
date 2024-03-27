@@ -1,8 +1,10 @@
 package com.patients.main.features.doctor.edit_patient_info.presentation
 
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -12,6 +14,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextFieldDefaults
@@ -42,12 +45,10 @@ fun EditPatientInfoScreen(
     var diagnosis by rememberSaveable { mutableStateOf(patient.diagnosis) }
     var status by rememberSaveable { mutableStateOf(patient.status.name) }
     val statusMap = mapOf<String, PatientStatus>(
-        "вылечился" to PatientStatus.Cured,
-        "ремиссия" to PatientStatus.Remission,
-        "рецидив" to PatientStatus.Relapse
+        "Вылечился" to PatientStatus.Cured,
+        "Ремиссия" to PatientStatus.Remission,
+        "Рецидив" to PatientStatus.Relapse
     )
-    val context = LocalContext.current
-    var white by rememberSaveable { mutableStateOf(true) }
     Column(
         modifier = modifier.padding(bottom = 25.dp),
     ) {
@@ -63,7 +64,7 @@ fun EditPatientInfoScreen(
         LazyColumn(
             modifier = Modifier.padding(horizontal = 9.dp),
 
-        ) {
+            ) {
             itemsIndexed(items) { index, content ->
                 if (index == 0) {
                     Text(
@@ -97,34 +98,30 @@ fun EditPatientInfoScreen(
                         fontSize = 15.sp,
                         text = stringResource(R.string.info_status)
                     )
-                    OutlinedTextField(
-                        value = status,
-                        onValueChange = { input ->
-                            status = input
-                            white = true
-                        },
-                        singleLine = true,
-                        colors = TextFieldDefaults.colors(
-                            unfocusedContainerColor = if (white) Color.White else Color.Red,
-                            focusedContainerColor = if (white) Color.White else Color.Red,
-                        ),
-                    )
+                    for (opt in statusMap.keys) {
+                        Row(
+                            modifier = Modifier
+                                .padding(vertical = 4.dp, horizontal = 10.dp)
+                                .fillMaxWidth()
+                                .clickable { status = opt }
+                        ) {
+                            RadioButton(selected = status == opt, onClick = null)
+                            Text(
+                                modifier = Modifier.padding(start = 5.dp, bottom = 4.dp),
+                                text = opt,
+                                fontSize = 18.sp
+                            )
+                        }
+                    }
                     TextButton(
                         modifier = Modifier
                             .padding(top = 200.dp, bottom = 100.dp)
                             .fillMaxWidth(),
                         border = BorderStroke(1.dp, Color.Black),
                         onClick = {
-                            val temp_status = status.lowercase()
-                            if (statusMap[temp_status] == null){
-                                white = false
-                            }
-                            else {
-                                white = true
-                                patient.status = statusMap[status] ?: PatientStatus.Cured
-                                patient.diagnosis = diagnosis
-                                navController.popBackStack()
-                            }
+                            patient.diagnosis = diagnosis
+                            patient.status = statusMap[status]!!
+                            navController.popBackStack()
                         }
                     ) {
                         Text(

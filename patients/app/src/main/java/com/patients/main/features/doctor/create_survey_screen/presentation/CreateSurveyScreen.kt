@@ -1,7 +1,6 @@
 package com.patients.main.features.doctor.create_survey_screen.presentation
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.border
@@ -22,8 +21,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Close
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
@@ -34,18 +31,14 @@ import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
@@ -54,8 +47,8 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.patients.main.R
+import com.patients.main.core.ui.alert_dialog.ConfirmationDialog
 import com.patients.main.data.CURRENT_MAX_SURVEYS
 import com.patients.main.data.PatientDTO
 import com.patients.main.data.SurveyDTO
@@ -487,37 +480,3 @@ fun DisplayQuestionOption(
     }
 }
 
-object ConfirmationDialog {
-    @Composable
-    fun Show(onConfirmed: (Boolean) -> Unit) {
-        var showDialog by remember { mutableStateOf(true) }
-
-        if (showDialog) {
-            AlertDialog(
-                onDismissRequest = {  },
-                title = { Text(stringResource(R.string.you_sure)) },
-                text = { Text(stringResource(R.string.data_would_not_be_safe)) },
-                confirmButton = {
-                    Button(
-                        onClick = {
-                            onConfirmed(true)
-                            showDialog = false
-                        }
-                    ) {
-                        Text("Да")
-                    }
-                },
-                dismissButton = {
-                    Button(
-                        onClick = {
-                            onConfirmed(false)
-                            showDialog = false
-                        }
-                    ) {
-                        Text("Отмена")
-                    }
-                }
-            )
-        }
-    }
-}

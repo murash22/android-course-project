@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId = "com.patients.main"
-        minSdk = 33
+        minSdk = 27
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"

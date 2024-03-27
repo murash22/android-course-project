@@ -93,7 +93,8 @@ fun PatientScreen(
                         it.id == (entry.arguments?.getString(PatientRoutes.TakeSurvey.argName) ?: "0")
                     }[0],
                     onSubmitSurvey = patientViewModel::onSubmitSurvey,
-                    onSubmitQuestionAnswer = patientViewModel::onSubmitQuestionAnswer
+                    onSubmitQuestionAnswer = patientViewModel::onSubmitQuestionAnswer,
+                    navController = navController
                 )
             }
         }

@@ -1,5 +1,6 @@
 package com.patients.main.features.patient.take_survey_screen.presentation
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -29,6 +30,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.patients.main.R
+import com.patients.main.core.ui.alert_dialog.ConfirmationDialog
 import com.patients.main.data.SurveyDTO
 import com.patients.main.data.SurveyQuestion
 
@@ -40,8 +42,28 @@ fun PatientTakeSurveyScreen(
     surveyCard: SurveyDTO,
     nav: NavController,
     onSubmitSurvey: (String) -> Unit,
-    onSubmitQuestionAnswer: (String, String, String) -> Unit
+    onSubmitQuestionAnswer: (String, String, String) -> Unit,
+    navController: NavController
 ) {
+    var showConfirmationDialog by rememberSaveable {
+        mutableStateOf(false)
+    }
+    BackHandler(
+        enabled = true,
+        onBack = {
+            showConfirmationDialog = true
+        }
+    )
+
+    if (showConfirmationDialog) {
+        ConfirmationDialog.Show { confirmed ->
+            if (confirmed) {
+                navController.popBackStack()
+            } else {
+                showConfirmationDialog = false
+            }
+        }
+    }
     Column(modifier = modifier) {
         Row(
             modifier = Modifier,
@@ -52,7 +74,7 @@ fun PatientTakeSurveyScreen(
                     .size(40.dp)
                     .padding(start = 10.dp, top = 5.dp)
                     .alpha(0.6f)
-                    .clickable { nav.popBackStack() },
+                    .clickable { showConfirmationDialog = true },
                 imageVector = Icons.Filled.Close,
                 contentDescription = null
             )

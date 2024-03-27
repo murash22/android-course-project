@@ -33,6 +33,7 @@ import com.example.helloworld.core.navigation.NavItem
 import com.example.helloworld.core.ui.bottom_nav_bar.BottomNavBar
 import com.example.helloworld.core.ui.top_bar.TopSearchBar
 import com.example.helloworld.features.doctor.check_survey.presentation.CheckSurveyScreen
+import com.example.helloworld.features.doctor.create_survey_screen.presentation.CreateSurveyScreen
 import com.example.helloworld.features.doctor.edit_patient_info.presentation.EditPatientInfoScreen
 import com.example.helloworld.features.doctor.home_screen.presentation.DoctorClosedSurveys
 import com.example.helloworld.features.doctor.home_screen.presentation.DoctorExpectingSurveys
@@ -259,6 +260,15 @@ fun DoctorScreen(
                 ) { entry ->
                     val patientId =
                         entry.arguments?.getString(DoctorRoutes.PatientCreateSurvey.argName!!)!!
+                    CreateSurveyScreen(
+                        onBack = { navController.popBackStack() },
+                        onCreateSurvey = { sv ->
+                            doctorViewModel.onAddSurvey(sv)
+                            navController.popBackStack()
+                        },
+                        patient = doctorViewModel.getPatient(patientId),
+                        doctorId = doctorId
+                    )
                 }
             }
         }

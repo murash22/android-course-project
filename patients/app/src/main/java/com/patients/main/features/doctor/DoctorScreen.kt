@@ -282,13 +282,14 @@ fun DoctorScreen(
                     val patientId =
                         entry.arguments?.getString(DoctorRoutes.PatientCreateSurvey.argName!!)!!
                     CreateSurveyScreen(
-                        onBack = { navController.popBackStack() },
+                        onBack = {  },
                         onCreateSurvey = { sv ->
                             doctorViewModel.onAddSurvey(sv)
                             navController.popBackStack()
                         },
                         patient = doctorViewModel.getPatient(patientId),
-                        doctorId = doctorId
+                        doctorId = doctorId,
+                        navController = navController
                     )
                 }
             }

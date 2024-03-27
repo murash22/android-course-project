@@ -91,6 +91,10 @@ fun DoctorScreen(
         mutableStateOf(false)
     }
 
+    val isHomeScreen = currentDestination?.route != DoctorRoutes.PatientsList.route
+
+
+
     val barVisibleScreens = listOf(
         DoctorRoutes.UncheckedSurveys.route,
         DoctorRoutes.ExpectingSurveys.route,
@@ -114,7 +118,8 @@ fun DoctorScreen(
                         Routes.Other.route -> filteredPatients =
                             doctorViewModel.onSearchPatients(it)
                     }
-                }
+                },
+                isHomeScreen = isHomeScreen
             )
         },
         bottomBar = {
@@ -131,13 +136,13 @@ fun DoctorScreen(
         },
     ) { paddingValues ->
         NavHost(navController = navController, startDestination = Routes.Home.route) {
-
             navigation( //home
                 route = Routes.Home.route,
                 startDestination = DoctorRoutes.UncheckedSurveys.route
             ) {
                 // home/unchecked_survveys
                 composable(route = DoctorRoutes.UncheckedSurveys.route) {
+
                     Column(
                         modifier = modifier.padding(paddingValues)
                     ) {
@@ -195,7 +200,6 @@ fun DoctorScreen(
                 route = Routes.Other.route,
                 startDestination = DoctorRoutes.PatientsList.route
             ) {
-
                 // other/patients
                 composable(route = DoctorRoutes.PatientsList.route) {
                     PatientsListScreen(

@@ -131,7 +131,7 @@ var USERS = listOf<UserDTO>(
     )
 )
 
-var CURRENT_MAX_QUESTIONS = 18
+var CURRENT_MAX_QUESTIONS = 27
 
 var SURVEYS = listOf<SurveyDTO>(
     SurveyDTO( // Закрытый опрос
@@ -303,6 +303,87 @@ var SURVEYS = listOf<SurveyDTO>(
             ),
             SurveyQuestion(
                 id = "18",
+                title = "Сколько часов вы спали прошлой ночью?",
+                options = listOf("Более 8 часов", "От 6 до 8 часов", "Менее 6 часов"),
+            ),
+        ),
+        feedback = "",
+        completed = false
+    ),
+    SurveyDTO(  // Еще не пройденный опрос
+        id = "7",
+        title = "Проверка самочувствия (не пройденный)",
+        patientID = "5",
+        doctorID = "3",
+        openDate = "07.03.2024",
+        closeDate = null,
+        questions = listOf(
+            SurveyQuestion(
+                id = "19",
+                title = "Как вы себя чувствуете сегодня?",
+                options = listOf("Отлично", "Хорошо", "Плохо"),
+            ),
+            SurveyQuestion(
+                id = "20",
+                title = "Как вы оцениваете свой уровень энергии?",
+                options = listOf("Высокий", "Средний", "Низкий"),
+            ),
+            SurveyQuestion(
+                id = "21",
+                title = "Сколько часов вы спали прошлой ночью?",
+                options = listOf("Более 8 часов", "От 6 до 8 часов", "Менее 6 часов"),
+            ),
+        ),
+        feedback = "",
+        completed = false
+    ),
+    SurveyDTO(  // Еще не пройденный опрос
+        id = "8",
+        title = "Проверка самочувствия (не пройденный)",
+        patientID = "6",
+        doctorID = "3",
+        openDate = "07.03.2024",
+        closeDate = null,
+        questions = listOf(
+            SurveyQuestion(
+                id = "22",
+                title = "Как вы себя чувствуете сегодня?",
+                options = listOf("Отлично", "Хорошо", "Плохо"),
+            ),
+            SurveyQuestion(
+                id = "23",
+                title = "Как вы оцениваете свой уровень энергии?",
+                options = listOf("Высокий", "Средний", "Низкий"),
+            ),
+            SurveyQuestion(
+                id = "24",
+                title = "Сколько часов вы спали прошлой ночью?",
+                options = listOf("Более 8 часов", "От 6 до 8 часов", "Менее 6 часов"),
+            ),
+        ),
+        feedback = "",
+        completed = false
+    ),
+    SurveyDTO(  // Еще не пройденный опрос
+        id = "9",
+        title = "Проверка самочувствия (не пройденный)",
+        patientID = "7",
+        doctorID = "3",
+        openDate = "07.03.2024",
+        closeDate = null,
+        questions = listOf(
+            SurveyQuestion(
+                id = "25",
+                title = "Как вы себя чувствуете сегодня?",
+                options = listOf("Отлично", "Хорошо", "Плохо"),
+            ),
+            SurveyQuestion(
+                id = "26",
+                title = "Как вы оцениваете свой уровень энергии?",
+                options = listOf("Высокий", "Средний", "Низкий"),
+            ),
+            SurveyQuestion(
+                id = "27",
                 title = "Сколько часов вы спали прошлой ночью?",
                 options = listOf("Более 8 часов", "От 6 до 8 часов", "Менее 6 часов"),
             ),

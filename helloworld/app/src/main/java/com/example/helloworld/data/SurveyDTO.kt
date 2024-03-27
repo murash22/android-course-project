@@ -1,10 +1,10 @@
 package com.example.helloworld.data
 
 data class SurveyQuestion(
-    val title: String,
-    val options: List<String>,
-    var answer: String = options[0]
-
+    var id: String,
+    var title: String,
+    var options: List<String>,
+    var answer: String = ""
 )
 
 data class SurveyDTO(

@@ -94,12 +94,12 @@ private fun QuestionCard(
     unSubmitAnswer: (String, String, String) -> Unit
 ) {
     var selectedAns by rememberSaveable{
-        mutableStateOf(question.answer)
+        mutableStateOf(question.options[0])
     }
 
     val onSelect: (String) -> Unit = {ans ->
         selectedAns = ans
-        unSubmitAnswer(surveyId, question.title, ans)
+        unSubmitAnswer(surveyId, question.id, ans)
     }
 
     Text(

@@ -8,7 +8,6 @@ import com.example.helloworld.data.USERS
 import com.example.helloworld.data.UserRole
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.update
 
 class PatientViewModel : ViewModel() {
@@ -31,11 +30,11 @@ class PatientViewModel : ViewModel() {
         SURVEYS = _surveys.value
     }
 
-    fun onSubmitQuestionAnswer(surveyId: String, questionTitle: String, answer: String) {
+    fun onSubmitQuestionAnswer(surveyId: String, questionId: String, answer: String) {
         for (survey in surveys.value) {
             if (survey.id == surveyId) {
                 for (question in survey.questions) {
-                    if (question.title == questionTitle) {
+                    if (question.id == questionId) {
                         question.answer = answer
                     }
                 }

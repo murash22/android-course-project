@@ -131,6 +131,8 @@ var USERS = listOf<UserDTO>(
     )
 )
 
+var CURRENT_MAX_QUESTIONS = 18
+
 var SURVEYS = listOf<SurveyDTO>(
     SurveyDTO( // Закрытый опрос
         id = "2",
@@ -141,21 +143,19 @@ var SURVEYS = listOf<SurveyDTO>(
         closeDate = "02.01.2024",
         questions = listOf(
             SurveyQuestion(
+                id = "1",
                 title = "Как вы себя чувствуете сегодня?",
                 options = listOf("Отлично", "Хорошо", "Плохо"),
                 answer = "Отлично"
             ),
             SurveyQuestion(
-                title = "Есть ли у вас с аппетит?",
-                options = listOf("Да", "Нет"),
-                answer = "Да"
-            ),
-            SurveyQuestion(
+                id = "2",
                 title = "Как вы оцениваете свой уровень энергии?",
                 options = listOf("Высокий", "Средний", "Низкий"),
                 answer = "Высокий"
             ),
             SurveyQuestion(
+                id = "3",
                 title = "Сколько часов вы спали прошлой ночью?",
                 options = listOf("Более 8 часов", "От 6 до 8 часов", "Менее 6 часов"),
                 answer = "Более 8 часов"
@@ -173,16 +173,19 @@ var SURVEYS = listOf<SurveyDTO>(
         closeDate = null,
         questions = listOf(
             SurveyQuestion(
+                id = "4",
                 title = "Как вы себя чувствуете сегодня?",
                 options = listOf("Отлично", "Хорошо", "Плохо"),
                 answer = "Отлично"
             ),
             SurveyQuestion(
+                id = "5",
                 title = "Как вы оцениваете свой уровень энергии?",
                 options = listOf("Высокий", "Средний", "Низкий"),
                 answer = "Высокий"
             ),
             SurveyQuestion(
+                id = "6",
                 title = "Сколько часов вы спали прошлой ночью?",
                 options = listOf("Более 8 часов", "От 6 до 8 часов", "Менее 6 часов"),
                 answer = "Менее 6 часов"
@@ -200,14 +203,17 @@ var SURVEYS = listOf<SurveyDTO>(
         closeDate = null,
         questions = listOf(
             SurveyQuestion(
+                id = "7",
                 title = "Как вы себя чувствуете сегодня?",
                 options = listOf("Отлично", "Хорошо", "Плохо"),
             ),
             SurveyQuestion(
+                id = "8",
                 title = "Как вы оцениваете свой уровень энергии?",
                 options = listOf("Высокий", "Средний", "Низкий"),
             ),
             SurveyQuestion(
+                id = "9",
                 title = "Сколько часов вы спали прошлой ночью?",
                 options = listOf("Более 8 часов", "От 6 до 8 часов", "Менее 6 часов"),
             ),
@@ -215,6 +221,8 @@ var SURVEYS = listOf<SurveyDTO>(
         feedback = "",
         completed = false
     ),
+
+
     SurveyDTO( // Закрытый опрос
         id = "4",
         title = "Проверка самочувствия (закрытый)",
@@ -224,16 +232,19 @@ var SURVEYS = listOf<SurveyDTO>(
         closeDate = "02.01.2024",
         questions = listOf(
             SurveyQuestion(
+                id = "10",
                 title = "Как вы себя чувствуете сегодня?",
                 options = listOf("Отлично", "Хорошо", "Плохо"),
                 answer = "Плохо"
             ),
             SurveyQuestion(
+                id = "11",
                 title = "Как вы оцениваете свой уровень энергии?",
                 options = listOf("Высокий", "Средний", "Низкий"),
                 answer = "Низкий"
             ),
             SurveyQuestion(
+                id = "12",
                 title = "Сколько часов вы спали прошлой ночью?",
                 options = listOf("Более 8 часов", "От 6 до 8 часов", "Менее 6 часов"),
                 answer = "От 6 до 8 часов"
@@ -251,16 +262,19 @@ var SURVEYS = listOf<SurveyDTO>(
         closeDate = null,
         questions = listOf(
             SurveyQuestion(
+                id = "13",
                 title = "Как вы себя чувствуете сегодня?",
                 options = listOf("Отлично", "Хорошо", "Плохо"),
                 answer = "Отлично"
             ),
             SurveyQuestion(
+                id = "14",
                 title = "Как вы оцениваете свой уровень энергии?",
                 options = listOf("Высокий", "Средний", "Низкий"),
                 answer = "Низкий"
             ),
             SurveyQuestion(
+                id = "15",
                 title = "Сколько часов вы спали прошлой ночью?",
                 options = listOf("Более 8 часов", "От 6 до 8 часов", "Менее 6 часов"),
                 answer = "От 6 до 8 часов"
@@ -278,14 +292,17 @@ var SURVEYS = listOf<SurveyDTO>(
         closeDate = null,
         questions = listOf(
             SurveyQuestion(
+                id = "16",
                 title = "Как вы себя чувствуете сегодня?",
                 options = listOf("Отлично", "Хорошо", "Плохо"),
             ),
             SurveyQuestion(
+                id = "17",
                 title = "Как вы оцениваете свой уровень энергии?",
                 options = listOf("Высокий", "Средний", "Низкий"),
             ),
             SurveyQuestion(
+                id = "18",
                 title = "Сколько часов вы спали прошлой ночью?",
                 options = listOf("Более 8 часов", "От 6 до 8 часов", "Менее 6 часов"),
             ),
@@ -294,3 +311,5 @@ var SURVEYS = listOf<SurveyDTO>(
         completed = false
     ),
 )
+
+var CURRENT_MAX_SURVEYS = SURVEYS.size

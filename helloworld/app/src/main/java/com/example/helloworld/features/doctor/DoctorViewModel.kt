@@ -20,7 +20,7 @@ class DoctorViewModel(
     private var _user = MutableStateFlow(USERS.find { it.id == doctorId && it.role == UserRole.Doctor }!!)
     val doctor: StateFlow<UserDTO> = _user.asStateFlow()
 
-    private var _surveys = MutableStateFlow(SURVEYS.filter { it.doctorID == doctorId })
+    private var _surveys = MutableStateFlow<MutableList<SurveyDTO>>(SURVEYS.filter { it.doctorID == doctorId }.toMutableList())
 //    val surveys: StateFlow<List<SurveyDTO>> = _surveys.asStateFlow()
 
     private var _patients = MutableStateFlow(USERS.filter {
@@ -28,6 +28,9 @@ class DoctorViewModel(
     })
     val patients: StateFlow<List<UserDTO>> = _patients.asStateFlow()
 
+    fun onAddSurvey(sv: SurveyDTO) {
+        _surveys.value.add(sv)
+    }
     fun onSearchSurveys(str: String) : List<SurveyDTO> {
         if (str.isNotEmpty()) {
             val tmp = _patients.value.filter { it.name.contains(str, true) }

@@ -88,10 +88,10 @@ fun PatientScreen(
             ) { entry ->
                 PatientTakeSurveyScreen(
                     modifier = Modifier.padding(paddingValues),
-                    nav = navController,
                     surveyCard = surveys.filter {
                         it.id == (entry.arguments?.getString(PatientRoutes.TakeSurvey.argName) ?: "0")
                     }[0],
+                    onResetSurveyAnswers = patientViewModel::resetSurveyAnswers,
                     onSubmitSurvey = patientViewModel::onSubmitSurvey,
                     onSubmitQuestionAnswer = patientViewModel::onSubmitQuestionAnswer,
                     navController = navController

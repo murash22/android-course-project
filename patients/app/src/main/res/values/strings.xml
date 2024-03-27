@@ -27,4 +27,6 @@
     <string name="patient_surveys_name">Опросы пациента %1$s</string>
     <string name="add_survey">Добавить опрос</string>
     <string name="statistics">Статистика лечения</string>
+    <string name="you_sure">Вы уверены?</string>
+    <string name="data_would_not_be_safe">Данные не будут сохранены</string>
 </resources>

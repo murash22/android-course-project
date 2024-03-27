@@ -1,7 +1,9 @@
 package com.patients.main.features.doctor.create_survey_screen.presentation
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.util.Log
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -20,6 +22,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
@@ -30,14 +34,18 @@ import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
@@ -45,6 +53,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.patients.main.R
 import com.patients.main.data.CURRENT_MAX_SURVEYS
 import com.patients.main.data.PatientDTO
@@ -64,7 +74,7 @@ data class Question(
 )
 
 
-fun createSurvey(vModel: CreateSurveyViewModel, patientId: String, doctorId: String) : SurveyDTO? {
+fun createSurvey(vModel: CreateSurveyViewModel, patientId: String, doctorId: String): SurveyDTO? {
     if (vModel.isValidSurvey()) {
         CURRENT_MAX_SURVEYS += 1
         return SurveyDTO(
@@ -81,7 +91,7 @@ fun createSurvey(vModel: CreateSurveyViewModel, patientId: String, doctorId: Str
                     title = q.title,
                     options = vModel.addedOptions.value.filter { opt ->
                         opt.id == q.id
-                    } .toList().map { option ->
+                    }.toList().map { option ->
                         option.value
                     }
                 )
@@ -101,10 +111,32 @@ fun CreateSurveyScreen(
     onCreateSurvey: (SurveyDTO) -> Unit,
     modifier: Modifier = Modifier,
     vModel: CreateSurveyViewModel = viewModel(),
+    navController: NavController
 ) {
 
     val surveyName by vModel.surveyName.collectAsState()
     val questions = vModel.questions.collectAsState()
+    var showConfirmationDialog by rememberSaveable {
+        mutableStateOf(false)
+    }
+
+    BackHandler(
+        enabled = true,
+        onBack = {
+            showConfirmationDialog = true
+        }
+    )
+
+    if (showConfirmationDialog) {
+        ConfirmationDialog.Show { confirmed ->
+            if (confirmed) {
+                navController.popBackStack()
+            } else {
+                showConfirmationDialog = false
+            }
+        }
+    }
+
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier.fillMaxSize()
@@ -114,7 +146,7 @@ fun CreateSurveyScreen(
             modifier = Modifier
                 .padding(vertical = 5.dp, horizontal = 10.dp)
         ) {
-            IconButton(onClick = onBack) {
+            IconButton(onClick = { showConfirmationDialog = true }) {
                 Icon(
                     imageVector = Icons.Filled.ArrowBack,
                     contentDescription = "Back"
@@ -247,13 +279,14 @@ private fun EditableQuestionCard(
             .border(
                 1.dp,
                 color = if (options.filter { it.id == id }.size < 2
-                    || vModel.getQuestionById(id).title.isEmpty()) {
+                    || vModel.getQuestionById(id).title.isEmpty()
+                ) {
                     Color.Red
                 } else Color.Green,
                 shape = RoundedCornerShape(10)
             ),
 
-    ) {
+        ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -312,7 +345,12 @@ private fun EditableQuestionCard(
             for (opt in options.filter { it.id == id }) {
                 DisplayQuestionOption(
                     option = opt.value,
-                    onDeleteOption = { vModel.removeOption(questionId = opt.id, option = opt.value) }
+                    onDeleteOption = {
+                        vModel.removeOption(
+                            questionId = opt.id,
+                            option = opt.value
+                        )
+                    }
                 )
             }
             TextButton(
@@ -444,6 +482,41 @@ fun DisplayQuestionOption(
             Icon(
                 imageVector = Icons.Filled.Close,
                 contentDescription = "Delete option"
+            )
+        }
+    }
+}
+
+object ConfirmationDialog {
+    @Composable
+    fun Show(onConfirmed: (Boolean) -> Unit) {
+        var showDialog by remember { mutableStateOf(true) }
+
+        if (showDialog) {
+            AlertDialog(
+                onDismissRequest = {  },
+                title = { Text(stringResource(R.string.you_sure)) },
+                text = { Text(stringResource(R.string.data_would_not_be_safe)) },
+                confirmButton = {
+                    Button(
+                        onClick = {
+                            onConfirmed(true)
+                            showDialog = false
+                        }
+                    ) {
+                        Text("Да")
+                    }
+                },
+                dismissButton = {
+                    Button(
+                        onClick = {
+                            onConfirmed(false)
+                            showDialog = false
+                        }
+                    ) {
+                        Text("Отмена")
+                    }
+                }
             )
         }
     }

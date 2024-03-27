@@ -41,6 +41,7 @@ import com.example.helloworld.features.doctor.home_screen.presentation.DoctorHom
 import com.example.helloworld.features.doctor.home_screen.presentation.DoctorUncheckedSurveys
 import com.example.helloworld.features.doctor.patient_surveys.presentation.PatientSurveysScreen
 import com.example.helloworld.features.doctor.patients_list_screen.presentation.PatientsListScreen
+import com.example.helloworld.features.doctor.statistics.presentation.StatisticScreen
 
 
 val navItems: List<NavItem<ImageVector>> = listOf(
@@ -206,6 +207,11 @@ fun DoctorScreen(
                     )
                 }
 
+                // other/statistics
+                composable(route = DoctorRoutes.Statistics.route) {
+                    StatisticScreen(navController = navController, patients = filteredPatients)
+                }
+
                 // other/patients/{id}/surveys
                 composable(
                     route = DoctorRoutes.PatientSurveys.route,
@@ -215,16 +221,27 @@ fun DoctorScreen(
                             nullable = false
                         }
                     ),
-                ) {entry->
-                    val patientId = entry.arguments?.getString(DoctorRoutes.PatientSurveys.argName!!)!!
+                ) { entry ->
+                    val patientId =
+                        entry.arguments?.getString(DoctorRoutes.PatientSurveys.argName!!)!!
                     PatientSurveysScreen(
                         surveys = doctorViewModel.getPatientSurveys(patientId),
-                        onBack = {navController.popBackStack()},
+                        onBack = { navController.popBackStack() },
                         onPatientInfo = {
-                            navController.navigate(DoctorRoutes.PatientInfo.route.replace("{id}", patientId))
+                            navController.navigate(
+                                DoctorRoutes.PatientInfo.route.replace(
+                                    "{id}",
+                                    patientId
+                                )
+                            )
                         },
                         onAddSurvey = {
-                            navController.navigate(DoctorRoutes.PatientCreateSurvey.route.replace("{id}", patientId))
+                            navController.navigate(
+                                DoctorRoutes.PatientCreateSurvey.route.replace(
+                                    "{id}",
+                                    patientId
+                                )
+                            )
                         },
                         patient = doctorViewModel.getPatient(patientId)
                     )

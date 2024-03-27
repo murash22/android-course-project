@@ -1,6 +1,6 @@
 package com.example.helloworld.data
 
-var USERS = listOf(
+var USERS = listOf<UserDTO>(
     PatientDTO(
         id = "1",
         name = "Александр",
@@ -22,6 +22,105 @@ var USERS = listOf(
         diagnosis = "Простуда",
         sex = "Мужчина",
         status = PatientStatus.Cured
+    ),
+    PatientDTO(
+        id = "5",
+        name = "Василий",
+        pin = "1234",
+        password = "qwerty",
+        email = "qwe@qwe.com",
+        age = "31",
+        diagnosis = "Туберкулез",
+        sex = "Мужчина",
+        status = PatientStatus.Relapse
+    ),
+    PatientDTO(
+        id = "6",
+        name = "Серафим",
+        pin = "0123",
+        password = "qwerty",
+        email = "qwe@qwe.com",
+        age = "22",
+        diagnosis = "ОРВИ",
+        sex = "Мужчина",
+        status = PatientStatus.Remission
+    ),
+    PatientDTO(
+        id = "7",
+        name = "Акакий",
+        pin = "2233",
+        password = "qwerty",
+        email = "qwe@qwe.com",
+        age = "18",
+        diagnosis = "Температура 40",
+        sex = "Мужчина",
+        status = PatientStatus.Relapse
+    ),
+    PatientDTO(
+        id = "8",
+        name = "Иннокентий",
+        pin = "3344",
+        password = "qwerty",
+        email = "qwe@qwe.com",
+        age = "55",
+        diagnosis = "Озноб",
+        sex = "Мужчина",
+        status = PatientStatus.Cured
+    ),
+    PatientDTO(
+        id = "9",
+        name = "Игорь",
+        pin = "6667",
+        password = "qwerty",
+        email = "qwe@qwe.com",
+        age = "45",
+        diagnosis = "Кашель",
+        sex = "Мужчина",
+        status = PatientStatus.Relapse
+    ),
+    PatientDTO(
+        id = "10",
+        name = "Олег",
+        pin = "1100",
+        password = "qwerty",
+        email = "qwe@qwe.com",
+        age = "21",
+        diagnosis = "Алкоголизм",
+        sex = "Мужчина",
+        status = PatientStatus.Relapse
+    ),
+    PatientDTO(
+        id = "11",
+        name = "Анна",
+        pin = "0099",
+        password = "qwerty",
+        email = "qwe@qwe.com",
+        age = "24",
+        diagnosis = "Кашель",
+        sex = "Женщина",
+        status = PatientStatus.Cured
+    ),
+    PatientDTO(
+        id = "12",
+        name = "Петр",
+        pin = "0909",
+        password = "qwerty",
+        email = "qwe@qwe.com",
+        age = "56",
+        diagnosis = "Головокружение",
+        sex = "Мужчина",
+        status = PatientStatus.Remission
+    ),
+    PatientDTO(
+        id = "13",
+        name = "Алексей",
+        pin = "1010",
+        password = "qwerty",
+        email = "qwe@qwe.com",
+        age = "22",
+        diagnosis = "Хим. ожог",
+        sex = "Мужчина",
+        status = PatientStatus.Relapse
     ),
     DoctorDTO(
         id = "3",

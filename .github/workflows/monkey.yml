@@ -70,6 +70,6 @@ jobs:
         script: |
           #!/bin/bash
           echo "no" | avdmanager create avd --force --name test --abi google_apis/x86_64 --package 'system-images;android-30;google_apis;x86_64'
-          adb wait-for-device
-          adb install app/build/outputs/apk/debug/app-debug.apk
+          adb wait-for-device && pwd && ls && ls app/build/outputs/
+          adb install ./app/build/outputs/apk/debug/app-debug.apk
           adb shell monkey -p com.patients.main -v 10

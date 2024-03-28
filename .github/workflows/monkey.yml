@@ -53,21 +53,23 @@ jobs:
       run: chmod +x gradlew
 
     - name: Build project
-      run: ./gradlew assembleDebug && ls
-    # - name: Enable KVM group perms
-    #   run: |
-    #     echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
-    #     sudo udevadm control --reload-rules
-    #     sudo udevadm trigger --name-match=kvm
+      run: ./gradlew assembleDebug && ls app/build/outputs/
+      
+    - name: Enable KVM group perms
+      run: |
+        echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+        sudo udevadm control --reload-rules
+        sudo udevadm trigger --name-match=kvm
 
-    # - name: Emulator
-    #   uses: ReactiveCircus/android-emulator-runner@v2
-    #   with:
-    #     api-level: 30
-    #     target: google_apis
-    #     arch: x86_64
-    #     script: |
-    #       #!/bin/bash
-    #       echo "no" | avdmanager create avd --force --name test --abi google_apis/x86_64 --package 'system-images;android-30;google_apis;x86_64'
-    #       adb wait-for-device
-    #       adb shell monkey -p com.patients.main -v 10
+    - name: Emulator
+      uses: ReactiveCircus/android-emulator-runner@v2
+      with:
+        api-level: 30
+        target: google_apis
+        arch: x86_64
+        script: |
+          #!/bin/bash
+          echo "no" | avdmanager create avd --force --name test --abi google_apis/x86_64 --package 'system-images;android-30;google_apis;x86_64'
+          adb wait-for-device
+          adb install app/build/outputs/apk/debug/app-debug.apk
+          adb shell monkey -p com.patients.main -v 10

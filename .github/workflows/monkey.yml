@@ -58,9 +58,6 @@ jobs:
         script: |
           #!/bin/bash
           echo "no" | avdmanager create avd --force --name test --abi google_apis/x86_64 --package 'system-images;android-30;google_apis;x86_64'
-          echo "export PATH=\$ANDROID_USER_HOME/emulator" >> $GITHUB_ENV
-          emulator -avd test -no-audio -no-window:
-            background: true
           adb wait-for-device
 
   monkey_test:

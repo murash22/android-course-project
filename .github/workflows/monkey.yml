@@ -36,14 +36,15 @@ jobs:
     name: Emulator
     # needs: build
     runs-on: ubuntu-latest
-    env:
-      PATH: ${{ runner.tools_directory }}/android/sdk/emulator:$PATH
     defaults:
       run: 
         working-directory: ./patients
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
+
+    - name: Add Android SDK tools to PATH
+      run: echo "export PATH=\$PATH:/usr/local/lib/android/sdk/emulator" >> $GITHUB_ENV
 
     - name: Enable KVM group perms
       run: |

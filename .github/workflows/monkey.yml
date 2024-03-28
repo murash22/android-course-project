@@ -20,7 +20,9 @@ jobs:
 
     - name: Change Directory to patients
       run: cd patients
-      working-directory: patients
+
+    - name: Check PWD 2
+      run: pwd
 
     - name: Set up JDK
       uses: actions/setup-java@v2

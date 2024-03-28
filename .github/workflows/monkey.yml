@@ -22,7 +22,7 @@ jobs:
         java-version: '11'
 
     - name: Build with Gradle
-      run: ./gradlew build
+      run: ./patients/gradlew build
 
     - name: Start Emulator
       uses: reactivecircus/android-emulator-runner@v2

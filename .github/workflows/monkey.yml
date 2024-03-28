@@ -27,8 +27,8 @@ jobs:
     - name: Grant execute permission to gradlew
       run: chmod +x gradlew
 
-    - name: Build with Gradle
-      run: ./gradlew build
+    # - name: Build with Gradle
+    #   run: ./gradlew build
 
     - name: Run connected tests
       uses: ReactiveCircus/android-emulator-runner@v2 
@@ -37,9 +37,10 @@ jobs:
         target: google_apis
         arch: x86_64
         script: |
-          echo "no" | avdmanager create avd -n test -k "system-images;android-30;google_apis;x86"
-          emulator -avd test -no-audio -no-window:
-            background: true
-          adb wait-for-device
-          ./gradlew 
+          ./gradlew assembleDebug --stacktrace
+          android-wait-for-emulator
           adb shell monkey -p com.patients.main -v 1000
+
+# echo "no" | avdmanager create avd -n test -k "system-images;android-30;google_apis;x86"
+#           emulator -avd test -no-audio -no-window:
+#             background: true

@@ -33,21 +33,17 @@ jobs:
         sudo udevadm control --reload-rules
         sudo udevadm trigger --name-match=kvm
 
+    - name: Set up Android SDK Platform Tools
+      uses: reactivecircus/android-emulator-runner@v2
 
     - name: Build with Gradle
       run: cd patients && ./gradlew build
 
-    # - name: Start Emulator
-    #   uses: reactivecircus/android-emulator-runner@v2
-    #   with:
-    #     api-level: 30
-    #     script: |
-    #       cd patients && echo no | avdmanager create avd -n Google_apis_30 -k "system-images;android-30;google_apis;x86_64"
-    #       emulator -avd test -no-audio -no-window:
-    #         background: true
-
-    # - name: Wait for Emulator
-    #   run: cd patients && adb wait-for-device
+    - name: Install and Run on Emulator
+      run: |
+        cd patients
+        adb install patients/build/outputs/apk/debug/your_app_name.apk
+        adb shell am start -n com.example.yourapp/.MainActivity
 
     - name: Run Monkey Test
       run: cd patients && adb shell monkey -p com.patients.main -v 1000  

@@ -59,4 +59,4 @@ jobs:
           #!/bin/bash
           echo "no" | avdmanager create avd --force --name test --abi google_apis/x86_64 --package 'system-images;android-30;google_apis;x86_64'
           adb wait-for-device
-          adb shell monkey -p com.patients.main -v 10
+          adb shell monkey -p com.patients.main.MainActivity -v 10

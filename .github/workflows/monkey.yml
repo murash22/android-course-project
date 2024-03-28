@@ -7,6 +7,17 @@ on:
     branches: [ main ]  
 
 jobs:
+  change-directory:
+    name: Change Directory
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Change Directory to patients
+      run: cd patients
+
   build:
     name: Build and Test
     runs-on: ubuntu-latest
@@ -22,10 +33,10 @@ jobs:
         java-version: '11'
     
     - name: Grant execute permission to gradlew
-      run: chmod +x patients/gradlew
+      run: chmod +x gradlew
 
     - name: Build with Gradle
-      run: ./patients/gradlew build
+      run: ./gradlew build
 
     - name: Start Emulator
       uses: reactivecircus/android-emulator-runner@v2

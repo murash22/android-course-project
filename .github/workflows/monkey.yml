@@ -20,6 +20,9 @@ jobs:
       with:
         distribution: 'adopt'
         java-version: '11'
+    
+    - name: Grant execute permission to gradlew
+      run: chmod +x patients/gradlew
 
     - name: Build with Gradle
       run: ./patients/gradlew build
@@ -37,5 +40,5 @@ jobs:
       run: adb wait-for-device
 
     - name: Run Monkey Test
-      run: adb shell monkey -p com.example.yourapp -v 1000  # Замените на ваш пакет приложения
+      run: adb shell monkey -p com.patients.main -v 1000  
 

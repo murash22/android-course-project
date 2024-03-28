@@ -35,13 +35,13 @@ jobs:
       with:
         api-level: 30
         script: |
-          echo "no" | avdmanager create avd -n test -k "system-images;android-30;google_apis;x86"
+          cd patients && echo no | avdmanager create avd -n Google_apis_30 -k "system-images;android-30;google_apis;x86_64"
           emulator -avd test -no-audio -no-window:
             background: true
 
     - name: Wait for Emulator
-      run: adb wait-for-device
+      run: cd patients && adb wait-for-device
 
     - name: Run Monkey Test
-      run: adb shell monkey -p com.patients.main -v 1000  
+      run: cd patients && adb shell monkey -p com.patients.main -v 1000  
 

@@ -12,6 +12,9 @@ jobs:
   build:
     name: Build
     runs-on: ubuntu-latest
+    defaults:
+      run: 
+        working-directory: ./patients
 
     steps:
     - name: Checkout repository
@@ -24,15 +27,18 @@ jobs:
         distribution: 'adopt'
 
     - name: Grant execute permission for gradlew
-      run: chmod +x patients/gradlew
+      run: chmod +x gradlew
 
     - name: Build project
-      run: cd patients && ./gradlew assembleDebug
+      run: ./gradlew assembleDebug
 
   emulator:
     name: Emulator
     needs: build
     runs-on: ubuntu-latest
+    defaults:
+      run: 
+        working-directory: ./patients
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
@@ -43,22 +49,40 @@ jobs:
         sudo udevadm control --reload-rules
         sudo udevadm trigger --name-match=kvm
 
-    - name: Start Emulator
-      uses: reactivecircus/android-emulator-runner@v2
+    - name: Emulator
+      uses: ReactiveCircus/android-emulator-runner@v2
       with:
         api-level: 30
+        target: google_apis
+        arch: x86_64
         script: |
           #!/bin/bash
           echo "no" | avdmanager create avd --force --name test --abi google_apis/x86_64 --package 'system-images;android-30;google_apis;x86_64'
           emulator -avd test -no-audio -no-window:
             background: true
           adb wait-for-device
-          adb shell input keyevent 82
+
+    # - name: Start Emulator
+    #   uses: reactivecircus/android-emulator-runner@v2
+    #   with:
+    #     api-level: 30
+    #     target: google_apis
+    #     arch: x86_64
+    #     script: |
+    #       #!/bin/bash
+    #       echo "no" | avdmanager create avd --force --name test --abi google_apis/x86_64 --package 'system-images;android-30;google_apis;x86_64'
+    #       emulator -avd test -no-audio -no-window:
+    #         background: true
+    #       adb wait-for-device
+    #       adb shell input keyevent 82
 
   monkey_test:
     name: Monkey Test
     needs: emulator
     runs-on: ubuntu-latest
+    defaults:
+      run: 
+        working-directory: ./patients
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2

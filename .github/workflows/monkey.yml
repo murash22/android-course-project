@@ -60,17 +60,6 @@ jobs:
           echo "no" | avdmanager create avd --force --name test --abi google_apis/x86_64 --package 'system-images;android-30;google_apis;x86_64'
           adb wait-for-device
 
-  monkey_test:
-    name: Monkey Test
-    needs: emulator
-    runs-on: ubuntu-latest
-    defaults:
-      run: 
-        working-directory: ./patients
-    steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
-
     - name: Run Monkey Test
       run: |
         adb shell monkey -p com.patients.main -v 10

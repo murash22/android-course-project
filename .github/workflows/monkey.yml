@@ -2,9 +2,9 @@ name: Android CI
 
 on:
   push:
-    branches: [ main ]  # Замените ветку на вашу основную ветку
+    branches: [ main ]  
   pull_request:
-    branches: [ main ]  # Замените ветку на вашу основную ветку
+    branches: [ main ]  
 
 jobs:
   build:
@@ -15,9 +15,10 @@ jobs:
     - name: Checkout Repository
       uses: actions/checkout@v2
 
-    - name: Set up JDK 11
+    - name: Set up JDK
       uses: actions/setup-java@v2
       with:
+        distribution: 'adopt'
         java-version: '11'
 
     - name: Build with Gradle

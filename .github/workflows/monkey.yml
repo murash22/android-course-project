@@ -37,17 +37,17 @@ jobs:
     - name: Build with Gradle
       run: cd patients && ./gradlew build
 
-    - name: Start Emulator
-      uses: reactivecircus/android-emulator-runner@v2
-      with:
-        api-level: 30
-        script: |
-          cd patients && echo no | avdmanager create avd -n Google_apis_30 -k "system-images;android-30;google_apis;x86_64"
-          emulator -avd test -no-audio -no-window:
-            background: true
+    # - name: Start Emulator
+    #   uses: reactivecircus/android-emulator-runner@v2
+    #   with:
+    #     api-level: 30
+    #     script: |
+    #       cd patients && echo no | avdmanager create avd -n Google_apis_30 -k "system-images;android-30;google_apis;x86_64"
+    #       emulator -avd test -no-audio -no-window:
+    #         background: true
 
-    - name: Wait for Emulator
-      run: cd patients && adb wait-for-device
+    # - name: Wait for Emulator
+    #   run: cd patients && adb wait-for-device
 
     - name: Run Monkey Test
       run: cd patients && adb shell monkey -p com.patients.main -v 1000  

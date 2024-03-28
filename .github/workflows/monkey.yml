@@ -35,6 +35,8 @@ jobs:
 
     - name: Set up Android SDK Platform Tools
       uses: reactivecircus/android-emulator-runner@v2
+      with:
+        api-level: 30
 
     - name: Build with Gradle
       run: cd patients && ./gradlew build

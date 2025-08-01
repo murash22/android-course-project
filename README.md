@@ -1,4 +1,6 @@
 # adfmp1h24-patients
+## Pages: https://www.figma.com/design/2rGR8GjpNSTV1iwVqPMlXd/android-moevm
+
 ## Инструкция по запуску
 Чтобы запустить приложение в Android Studio: Open Project -> patients 
 Результат: 
